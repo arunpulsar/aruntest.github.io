@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Pulsar Bluetooth Remote Access</title>
-  <link rel="stylesheet" href="css/normalize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<!-- <link rel="stylesheet" href="css/style-lr2.css"> -->
   <noscript>
     <link rel="stylesheet" href="css/skel-noscript.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -517,7 +518,7 @@ function sleep(ms) {
      // log("send_command:: login_stage="+login_stage+" isIgnore="+isIgnore+" isIgnore_2="+isIgnore_2+" isDisconnecting="+isDisconnecting+" button_press="+button_press);
 
       if(document.getElementById("cmd").value == ""){
-        log(" → invalid param request");
+        log(" → Invalid param request");
         return;  
       }
 
@@ -527,7 +528,11 @@ function sleep(ms) {
           // log(" → Press Trace OFF to get params");
           // return;
           send_command_check();
-        }else{
+        } else if ((login_stage == 3) && (document.getElementById("cmd").value.startsWith("AT")) && (document.getElementById("cmd").value != 'AT+PT=0') && (document.getElementById("cmd").value != 'AT+PT=1')){
+          setTimeout(ptModeOFF1, 1000);
+          setTimeout(sendcommand, 2000);
+          setTimeout(ptModeON1, 3000);
+        } else{
           sendAT(document.getElementById('cmd').value); 
           button_press = 8;
         }
@@ -1088,7 +1093,7 @@ async function incomingData(event){
         // Define a scan filter and prepare for interaction with Codeless Service
           log('');
           log('Requesting Bluetooth Device...');
-          device = await navigator.bluetooth.requestDevice(options);
+          device = await navigator.bluetooth.requestDevice(options);          
           log('Name: ' + device.name);
           deviceName='REFLECT: '/*+ '\n' + device.name;*/
           document.getElementById('id_title').innerHTML =deviceName;
@@ -1165,7 +1170,7 @@ async function sendAT(cmd) {
           isIgnore=0;
 
           if(document.getElementById("cmd").value == ""){
-            log(" → invalid param request");
+            log(" → Invalid param request");
             return;  
           }
 
@@ -1174,7 +1179,11 @@ async function sendAT(cmd) {
     	      // return;
             send_command_check();
 
-	        } else {
+	        } else if ((login_stage == 3) && (document.getElementById("cmd").value.startsWith("AT")) && (document.getElementById("cmd").value != 'AT+PT=0') && (document.getElementById("cmd").value != 'AT+PT=1')){
+            setTimeout(ptModeOFF1, 1000);
+            setTimeout(sendcommand, 2000);
+            setTimeout(ptModeON1, 3000);
+          } else {
             sendAT(document.getElementById("cmd").value);
             button_press = 8;
           }    
@@ -1520,6 +1529,7 @@ function myLoadFunction() {
         display: inline-block;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         font-size: 240px;
+        /* color: rgb(155, 156, 160); */
         margin: 4px 2px;
         cursor: pointer;
         resize: none;
@@ -1537,6 +1547,7 @@ function myLoadFunction() {
         display: inline-block;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         font-size: 240px;
+        /* color: rgb(155, 156, 160); */
         margin: 4px 2px;
         cursor: pointer;
         resize: none;
@@ -1804,7 +1815,7 @@ function myLoadFunction() {
           <td>
               <div class="logo">
                 <a href="" style="text-decoration:none;">
-                  <img src="./img/pulsarlogo.svg"  alt="Logo" onclick="bleExitPage();" style="width:360px;height:120px;border:none;text-decoration:none;color:#eeeeee00;">
+                  <img src="./img/pulsarlogo-old-white.svg"  alt="Logo" onclick="bleExitPage();" style="width:360px;height:120px;border:none;text-decoration:none;color:#eeeeee00;">
                 </a>
               </div>
           </td>
@@ -2361,8 +2372,8 @@ function myLoadFunction() {
               </tr>
             </table>
             </div>
+          </h4> <!-- IMPORTANT : donot remove this tag-->
 
-        </h4> <!-- IMPORTANT : donot remove this tag-->
         
 
         <div class="accordion-item__container">
