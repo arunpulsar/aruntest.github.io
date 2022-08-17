@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Pulsar Bluetooth Remote Access</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-	<!-- <link rel="stylesheet" href="css/style-lr2.css"> -->
+  <link rel="stylesheet" href="css/normalize.min.css">
   <noscript>
     <link rel="stylesheet" href="css/skel-noscript.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -1093,7 +1092,7 @@ async function incomingData(event){
         // Define a scan filter and prepare for interaction with Codeless Service
           log('');
           log('Requesting Bluetooth Device...');
-          device = await navigator.bluetooth.requestDevice(options);          
+          device = await navigator.bluetooth.requestDevice(options);
           log('Name: ' + device.name);
           deviceName='REFLECT: '/*+ '\n' + device.name;*/
           document.getElementById('id_title').innerHTML =deviceName;
@@ -1529,7 +1528,6 @@ function myLoadFunction() {
         display: inline-block;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         font-size: 240px;
-        /* color: rgb(155, 156, 160); */
         margin: 4px 2px;
         cursor: pointer;
         resize: none;
@@ -1547,7 +1545,6 @@ function myLoadFunction() {
         display: inline-block;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
         font-size: 240px;
-        /* color: rgb(155, 156, 160); */
         margin: 4px 2px;
         cursor: pointer;
         resize: none;
@@ -1815,7 +1812,7 @@ function myLoadFunction() {
           <td>
               <div class="logo">
                 <a href="" style="text-decoration:none;">
-                  <img src="./img/pulsarlogo-old-white.svg"  alt="Logo" onclick="bleExitPage();" style="width:360px;height:120px;border:none;text-decoration:none;color:#eeeeee00;">
+                  <img src="./img/pulsarlogo.svg"  alt="Logo" onclick="bleExitPage();" style="width:360px;height:120px;border:none;text-decoration:none;color:#eeeeee00;">
                 </a>
               </div>
           </td>
@@ -2372,8 +2369,8 @@ function myLoadFunction() {
               </tr>
             </table>
             </div>
-          </h4> <!-- IMPORTANT : donot remove this tag-->
 
+        </h4> <!-- IMPORTANT : donot remove this tag-->
         
 
         <div class="accordion-item__container">
