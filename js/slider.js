@@ -1,7 +1,32 @@
 var range_el = document.querySelector('input');
 var power_lvl = 0;
 
-
+function update_range(val) {
+    if(val > 0 && val <= 3){ // 3m        
+        document.getElementById("rangevalue1").innerHTML="3m";
+        document.getElementById("myRange").value = 8;
+    }
+    else if(val > 3 && val <= 5){ // 5m  
+        document.getElementById("rangevalue1").innerHTML="5m";
+        document.getElementById("myRange").value = 13;
+    }
+    else if(val > 5 && val <= 6){ // 10m    
+        document.getElementById("rangevalue1").innerHTML="10m";
+        document.getElementById("myRange").value = 25;
+    }
+    else if(val > 6 && val <= 8){ // 20       
+        document.getElementById("rangevalue1").innerHTML="20m";
+        document.getElementById("myRange").value = 50;
+    }
+    else if(val > 8 && val <= 10){ // 30m       
+        document.getElementById("rangevalue1").innerHTML="30m";
+        document.getElementById("myRange").value = 75;
+    }
+    else { 
+        document.getElementById("rangevalue1").innerHTML="40m";
+        document.getElementById("myRange").value = 100;
+    }       
+}
 
 function testtest(e) {
     // document.getElementById("rangevalue1").innerHTML= e;
