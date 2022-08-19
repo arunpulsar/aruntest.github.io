@@ -133,7 +133,7 @@ function sleep(ms) {
           p605_units = "m³";
           break;
         case 0:
-          p605_units = "No units";
+          p605_units = "None";
           break;
         case 1:
           p605_units = "Tons";
@@ -2467,14 +2467,14 @@ function myLoadFunction() {
               <!-- <td><input type="text" id="p605-box" style="font-size: 24pt; font-weight: bold; width:180px; height:80px;" onkeydown="button_press = 25; wasEnter2(this);"></td> -->
               <td><select id = "p605List" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onchange = "button_press = 25;" > 
                 <option value="0"> Choose p605 </option>  
-                <option value="1"> 0 = No units </option>  
+                <option value="1"> 0 = None </option>  
                 <option value="2"> 1 = Tons </option>  
                 <option value="3"> 2 = Tonnes </option>  
-                <option value="4"> 3 = m3 </option>  
+                <option value="4"> 3 = m³ </option>  
                 <option value="5"> 4 = Litres </option>  
-                <option value="6"> 5 = UK Gallons </option>  
-                <option value="7"> 6 = US Gallons </option>  
-                <option value="8"> 7 = Cubic ft </option>  
+                <option value="6"> 5 = UK Gal </option>  
+                <option value="7"> 6 = US Gal </option>  
+                <option value="8"> 7 = ft³ </option>  
                 <option value="9"> 8 = Barrels </option>  
               </select>
               </td>
