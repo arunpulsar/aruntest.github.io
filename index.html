@@ -86,7 +86,7 @@ function sleep(ms) {
     var button_press = 0;
     var isTraceOn = 0;
     var level_var, distance_var, volume_var, compensated_var, compensated_var_m, mA_output_var, temperature_var, date_var, time_var, gate_start, gate_stop, echo_var, noise_var, status_var, near_blanking_var, far_blanking_var, empty_distance, mode_var, bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7;
-    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status;
+    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query;
     level_var = 0.000;//4.346;
     distance_var = 0.000;//1.654;
     volume_var = 0.000;//2.370;
@@ -112,6 +112,9 @@ function sleep(ms) {
     p605_units = "m³";
     p104_rx_status = 0;
     p605_rx_status = 0;
+    cmd_sent = "";
+    param_init_query = 0;
+    power_init_query = 0;
 
     // set interval
     var echo_tid;
@@ -125,6 +128,46 @@ function sleep(ms) {
     var param_start_val = 0;
 
     var login_stage = 0;    // Login status
+
+    // Resetting all the variables
+    function reset_params() {
+      button_press = 0;
+      isTraceOn = 0;
+      level_var = 0.000;
+      distance_var = 0.000;
+      volume_var = 0.000;
+      compensated_var = 7.2;
+      compensated_var_m = 7.2;
+      mA_output_var = 0.000;
+      temperature_var = 0.000;
+      date_var = 190100.000;
+      time_var = 2210.000;
+      gate_start = 0;
+      gate_stop = 0;
+      echo_var = 0;
+      noise_var = 0;
+      status_var = 999;
+      near_blanking_var = 0.3;
+      far_blanking_var = 20.0;
+      far_blanking_dist = 7.2;
+      empty_distance = 6.0;
+      mode_var = 6.0;
+      p104_units_val = 1;
+      p605_units_val = 3;
+      p104_units = "m";
+      p605_units = "m³";
+      p104_rx_status = 0;
+      p605_rx_status = 0;
+      cmd_sent = "";
+      param_query=0;
+      isDisconnecting=0;
+      isTerminated=0;
+      param_start_val = 0;
+      power_lvl = 0;
+      new_power_lvl = 0;
+      param_init_query = 0;
+      power_init_query = 0;   
+    }
 
     // Function to select the volume units to be displayed depending on p605 value
     function p605_volume_units() {
@@ -259,13 +302,13 @@ function sleep(ms) {
     }
 
     function param_update() {
-      if((login_stage >= 3) && (isDisconnecting == 0)) {
+      if((login_stage >= 3) && (isDisconnecting == 0) && (param_init_query == 0)) {
         tids_trace_reset();
         // settings_clear();
         settings_msg_clear();
         param_start_val = 1;
         param_query = 0;
-        param_tid = setInterval(param_start, 1000);
+        param_tid = setInterval(param_start, 1250);
       }
     }
 
@@ -316,6 +359,7 @@ function sleep(ms) {
             button_press = 0;
             clearTimeout(param_tid);
             param_start_val = 0;
+            param_init_query = 1;
             settings_msg_clear();
             break;
         }
@@ -739,8 +783,8 @@ function sleep(ms) {
         // document.getElementById("dist_t").innerHTML = "<span style='font-sze:12px;color: black;  '>"+dist_str+"</span>";      
         var textarea1 = document.getElementById('data-log_t');
         textarea1.value = "";
-        textarea1.scrollTop = textarea.scrollHeight;
         textarea1.value=textarea.value;
+        textarea1.scrollTop = textarea.scrollHeight;
     }
 
     function populate_params(string_val){
@@ -898,8 +942,10 @@ async function incomingData(event){
             for(var i = 0, len = elements.length; i < len; i++)
               document.getElementById(elements[i].id).style.background = '#33B34A';
 
-            sendATL('AT+PT=1');
-            setTimeout(trace_button_check, 2000);//3000); // UNDER TEST 1
+            //sendATL('AT+PT=1');
+            sendAT('AT+PWRLVL');
+            setTimeout(ptLModeON, 1000);
+            setTimeout(trace_button_check, 3000);//2000); // UNDER TEST 1
           }else {
            // alert(isDisconnecting+" ::"+string_check);
             log(" ← disconnecting");
@@ -926,13 +972,19 @@ async function incomingData(event){
           if( disp == 0){          
             if(sysState == 2 && string_check.length > 12){
               //log(" ← param state" + sysState );
-            }else {
-              if(string_check.includes("/P")) {
-                if(!((isTraceOn == 1) && ((cmd.includes("/P104")) || (cmd.includes("/P605")))))
-                  log(" ← " + string_check.slice(string_check.lastIndexOf('/')) );//   alert(string_check.slice(string_check.lastIndexOf('/')));
+            } else if(string_check.includes("/P")) {
+              if(!((isTraceOn == 1) && ((cmd.includes("/P104")) || (cmd.includes("/P605")))))
+                log(" ← " + string_check.slice(string_check.lastIndexOf('/')) );//   alert(string_check.slice(string_check.lastIndexOf('/')));
+            } else {
+              if(cmd_sent == "AT+PWRLVL") {
+                update_range(parseInt(string_check));
+              } else if(cmd_sent == "AT+PWRLVL=") {
+                if(string_check.includes("ERROR"))
+                  update_range(power_lvl);
+                else if(string_check.includes("OK"))
+                  update_range(new_power_lvl);
               }
-              else
-                log(" ← " + string_check );
+              log(" ← " + string_check );
             }
           }
           
@@ -948,6 +1000,7 @@ async function incomingData(event){
     async function onDisconnected()
     {
       tids_trace_reset();
+      reset_params();
       document.getElementById('btn_trace').innerHTML ='TRACE OFF';
       log(" → Bluetooth connection terminated!");
       button_press=0;
@@ -1124,14 +1177,25 @@ async function incomingData(event){
 
 // Send an AT command to the CodeLess BLE peer
 async function sendAT(cmd) {
+      if (cmd === 'AT+PWRLVL')
+        cmd_sent = "AT+PWRLVL";
+      else if (cmd.includes("AT+PWRLVL="))
+      {
+        cmd_sent = "AT+PWRLVL=";
+        new_power_lvl = parseInt(cmd.slice(cmd.lastIndexOf('=') + 1));
+      }
       // Display the command in the log
       if(cmd.includes("AT+SETA=")) {
         let pwd = cmd.substring(cmd.indexOf('=') + 1);
         let cmd1 = pwd.replace(/[0-9]/g, "*");
         log(' → AT+SETA=' + cmd1);
       }
-      else if ((cmd != "GET ECHO") && (cmd != "GET DATEM") && !((isTraceOn == 1) && ((cmd == "/P104") || (cmd == "/P605"))))
-        log(' → ' + cmd );
+      else if ((cmd != "GET ECHO") && (cmd != "GET DATEM") && !((isTraceOn == 1) && ((cmd == "/P104") || (cmd == "/P605")))) {
+        if((cmd_sent == "AT+PWRLVL") && (power_init_query == 0))
+          log(' → Checking bluetooth power level');
+        else
+          log(' → ' + cmd );
+      }
       // Append an extra character as expected by CodeLess
       var commandToSend = cmd + "\0";
       try{
@@ -1195,7 +1259,7 @@ async function sendAT(cmd) {
     }
 
     function writeBTrange() {
-      sendAT('AT+PWRLVL='+ power_lvl);
+      sendAT('AT+PWRLVL='+ new_power_lvl);
     }
 
     function writedeviceName() {
@@ -1204,6 +1268,10 @@ async function sendAT(cmd) {
 
     function writePassword() {
       sendAT('AT+SETA='+ document.getElementById("pWord-box").value);
+    }
+
+    function ptLModeON() {
+      sendATL('AT+PT=1');
     }
 
     function ptModeON() {
@@ -1465,7 +1533,7 @@ async function sendAT(cmd) {
       if(textarea.value == "")
         textarea.value = text;
       else
-        textarea.value += "\n" + text;	  
+        textarea.value += "\n" + text;
       textarea.scrollTop = textarea.scrollHeight;
     }
 
@@ -2500,7 +2568,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2022<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.4<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.5<br></p>
           </td>
         </tr>
       </table>
