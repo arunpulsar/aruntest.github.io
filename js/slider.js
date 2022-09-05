@@ -1,5 +1,6 @@
 var range_el = document.querySelector('input');
 var power_lvl = 0;
+var new_power_lvl = 0;
 
 function update_range(val) {
     if(val > 0 && val <= 3){ // 3m        
@@ -25,7 +26,10 @@ function update_range(val) {
     else { 
         document.getElementById("rangevalue1").innerHTML="40m";
         document.getElementById("myRange").value = 100;
-    }       
+    }
+    cmd_sent = "";
+    power_lvl = val;
+    power_init_query = 1;       
 }
 
 function testtest(e) {
@@ -33,32 +37,32 @@ function testtest(e) {
     // set the progress bar at the certain %
     if(e > 0 && e <= 8){ // 3m        
         // send the PWRLVL - 3;
-        power_lvl = 3;
+        new_power_lvl = 3;
         document.getElementById("rangevalue1").innerHTML="3m";
     }
     else if(e > 8 && e <= 13){ // 5m
         // send the PWRLVL - 5;
-        power_lvl = 5;        
+        new_power_lvl = 5;        
         document.getElementById("rangevalue1").innerHTML="5m";
     }
     else if(e > 13 && e <= 25){ // 10m
         // send the PWRLVL - 6;
-        power_lvl = 6;        
+        new_power_lvl = 6;        
         document.getElementById("rangevalue1").innerHTML="10m";
     }
     else if(e > 25 && e <= 50){ // 20    
         // send the PWRLVL - 8;
-        power_lvl = 8;        
+        new_power_lvl = 8;        
         document.getElementById("rangevalue1").innerHTML="20m";
     }
     else if(e > 50 && e <= 75){ // 30m
         // send the PWRLVL - 10;
-        power_lvl = 10;        
+        new_power_lvl = 10;        
         document.getElementById("rangevalue1").innerHTML="30m";
     }
     else {
         // send the PWRLVL - 12;     
-        power_lvl = 12;   
+        new_power_lvl = 12;   
         document.getElementById("rangevalue1").innerHTML="40m";
     }
     if((login_stage >= 2) && (isDisconnecting == 0)) {
