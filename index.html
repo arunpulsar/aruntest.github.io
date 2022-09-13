@@ -539,6 +539,11 @@ function sleep(ms) {
       clearTimeout(echo_tid);
       clearTimeout(datem_tid);
       clearTimeout(param_tid);
+      p104_tid = false;
+      p605_tid = false;
+      echo_tid = false;
+      datem_tid = false;
+      param_tid = false;
       isTraceOn=0;
       document.getElementById("trace-message").innerHTML = "";
       document.getElementById("home-message").innerHTML = "";
@@ -814,7 +819,7 @@ function sleep(ms) {
       if(string_val.includes("/P241:")) {             
         document.getElementById('p241List').value = parseInt(string_val.slice(string_val.lastIndexOf(':') + 1)) + 1;
         param_query = 1;
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         if((document.getElementById('p241List').value >=1) && (document.getElementById('p241List').value <=3))
           alert('Warning: P241 is set to installation mode. Kindly change it to Health mode (7) once installed properly!');
@@ -824,7 +829,7 @@ function sleep(ms) {
         //document.getElementById('p100-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);     
         document.getElementById('p100List').value = parseInt(string_val.slice(string_val.lastIndexOf(':') + 1));
         param_query = 2;
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         document.getElementById("btnp100").style.background = '#33B34A';   //PULSAR GREEN
       }
@@ -834,7 +839,7 @@ function sleep(ms) {
         document.getElementById('p104List').value = parseInt(string_val.slice(string_val.lastIndexOf(':') + 1));
         p104_units_val = parseInt(document.getElementById('p104List').value);
         p104_measurement_units();  // Update the measurement units to be displayed
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         if(isTraceOn == 1) {
           //sendAT('/P605');
@@ -854,14 +859,14 @@ function sleep(ms) {
       else if(string_val.includes("/P105:")) {
         document.getElementById('p105-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         param_query = 4;
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         document.getElementById("btnp105").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P106:")) {
         document.getElementById('p106-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         param_query = 5;
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         if(p104_param_update == 1) {
           p104_param_update = 0;
@@ -873,7 +878,7 @@ function sleep(ms) {
         //document.getElementById('p808-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         document.getElementById('p808List').value = parseInt(string_val.slice(string_val.lastIndexOf(':') + 1));
         param_query = 6;
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         document.getElementById("btnp808").style.background = '#33B34A';   //PULSAR GREEN
       }
@@ -883,7 +888,7 @@ function sleep(ms) {
         document.getElementById('p605List').value = parseInt(string_val.slice(string_val.lastIndexOf(':') + 1)) + 1;
         p605_units_val = parseInt(document.getElementById('p605List').value) - 1;
         p605_volume_units();  // Update the volume units to be displayed
-        if(param_start_val == 0)
+        if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         if(isTraceOn == 1) {
 
@@ -1011,7 +1016,7 @@ async function incomingData(event){
             if(sysState == 2 && string_check.length > 12){
               //log(" ← param state" + sysState );
             } else if(string_check.includes("/P")) {
-              if(!((isTraceOn == 1) && ((cmd.includes("/P104")) || (cmd.includes("/P605")))))
+              if(!((isTraceOn == 1) && ((string_check.includes("/P104")) || (string_check.includes("/P605")))))
                 log(" ← " + string_check.slice(string_check.lastIndexOf('/')) );//   alert(string_check.slice(string_check.lastIndexOf('/')));
             } else {
               if(cmd_sent == "AT+PWRLVL") {
