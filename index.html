@@ -996,7 +996,7 @@ async function incomingData(event){
         }
         else if( ( string_check.includes("ERROR") || string_check.includes("Logged In failed")) && login_stage == 1 )
         {
-            document.getElementById('lblpsw').innerHTML ='login failed';
+            document.getElementById('lblpsw').innerHTML ='Login failed';
             document.getElementById('lblpsw').style.color = "red";
             document.getElementById("pswbox").value='';
             openForm();
@@ -2011,12 +2011,12 @@ function myLoadFunction() {
           </table>
                     <div class="form-popup" id="myForm">
                       <form action="" class="form-container">
-                        <h1>Login</h1>            
+                        <h1>LOGIN</h1>            
                         <!-- <label for="email"><b>Email</b></label>
                         <input type="text" placeholder="Enter Email" name="email" required> -->
-                        <label for="psw" id="lblpsw" ><b>Passcode</b></label>
-                        <input type="password" placeholder="Enter Passcode" id="pswbox" name="psw" onkeydown="search(this)" required>            
-                        <button type="button" id="btnLogin" class="btn" onclick="closeForm(); sendLoginCmd(); closeForm2();  ">Login</button>
+                        <label for="psw" id="lblpsw" style="font-family:'Segoe UI Normal';  font-size: 24pt; font-style:Normal; font-weight:normal; height:50px; display: inline;""><b>Passcode</b></label>
+                        <input type="password" placeholder="Enter Passcode" id="pswbox" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; " name="psw" onkeydown="search(this) " required>            
+                        <button type="button" id="btnLogin" class="btn" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500;  " onclick="closeForm(); sendLoginCmd(); closeForm2();  ">LOGIN</button>
                         <!-- <button type="button" class="btn cancel" onclick="closeForm()">Close</button>  -->
                       </form>
                     </div>                    
