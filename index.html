@@ -86,7 +86,7 @@ function sleep(ms) {
     var button_press = 0;
     var isTraceOn = 0;
     var level_var, distance_var, volume_var, compensated_var, compensated_var_m, mA_output_var, temperature_var, date_var, time_var, gate_start, gate_stop, echo_var, noise_var, status_var, near_blanking_var, far_blanking_var, empty_distance, mode_var, bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7;
-    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query;
+    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query, p104_param_update;
     level_var = 0.000;//4.346;
     distance_var = 0.000;//1.654;
     volume_var = 0.000;//2.370;
@@ -115,6 +115,7 @@ function sleep(ms) {
     cmd_sent = "";
     param_init_query = 0;
     power_init_query = 0;
+    p104_param_update = 0;
 
     // set interval
     var echo_tid;
@@ -166,7 +167,8 @@ function sleep(ms) {
       power_lvl = 0;
       new_power_lvl = 0;
       param_init_query = 0;
-      power_init_query = 0;   
+      power_init_query = 0;
+      p104_param_update = 0;
     }
 
     // Function to select the volume units to be displayed depending on p605 value
@@ -301,14 +303,27 @@ function sleep(ms) {
       }
     }
 
-    function param_update() {
-      if((login_stage >= 3) && (isDisconnecting == 0) && (param_init_query == 0)) {
+    function p104_update() {
+      if((login_stage >= 3) && (isDisconnecting == 0)) {
         tids_trace_reset();
         // settings_clear();
         settings_msg_clear();
         param_start_val = 1;
-        param_query = 0;
+        param_query = 3;
         param_tid = setInterval(param_start, 1000);
+      }
+    }
+
+    function param_update() {
+      if((login_stage >= 3) && (isDisconnecting == 0)) {
+        tids_trace_reset();
+        // settings_clear();
+        settings_msg_clear();
+        if(param_init_query == 0) {
+          param_start_val = 1;
+          param_query = 0;
+          param_tid = setInterval(param_start, 1000);
+        }
       }
     }
 
@@ -317,41 +332,49 @@ function sleep(ms) {
         switch (param_query) {
           case 0:
             button_press = 19;
+            document.getElementById("btnp241").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P241');
             document.getElementById("settings-message").innerHTML = "Querying P241. Please wait...";
             break;
           case 1:
             button_press = 20;
+            document.getElementById("btnp100").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P100');
             document.getElementById("settings-message").innerHTML = "Querying P100. Please wait...";
             break;
           case 2:
             button_press = 21;
+            document.getElementById("btnp104").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P104');
             document.getElementById("settings-message").innerHTML = "Querying P104. Please wait...";
             break;
           case 3:
             button_press = 22;
+            document.getElementById("btnp105").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P105');
             document.getElementById("settings-message").innerHTML = "Querying P105. Please wait...";
             break;
           case 4:
             button_press = 23;
+            document.getElementById("btnp106").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P106');
             document.getElementById("settings-message").innerHTML = "Querying P106. Please wait...";
             break;
           case 5:
             button_press = 24;
+            document.getElementById("btnp808").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P808');
             document.getElementById("settings-message").innerHTML = "Querying P808. Please wait...";
             break;
           case 6:
             button_press = 25;
+            document.getElementById("btnp605").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P605');
             document.getElementById("settings-message").innerHTML = "Querying P605. Please wait...";
             break;
           case 7:
             button_press = 26;
+            document.getElementById("btnp21").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P21');
             document.getElementById("settings-message").innerHTML = "Querying P21. Please wait...";
             break;
@@ -793,6 +816,9 @@ function sleep(ms) {
         param_query = 1;
         if(param_start_val == 0)
           settings_msg_clear();
+        if((document.getElementById('p241List').value >=1) && (document.getElementById('p241List').value <=3))
+          alert('Warning: P241 is set to installation mode. Kindly change it to Health mode (7) once installed properly!');
+        document.getElementById("btnp241").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P100:")) {
         //document.getElementById('p100-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);     
@@ -800,6 +826,7 @@ function sleep(ms) {
         param_query = 2;
         if(param_start_val == 0)
           settings_msg_clear();
+        document.getElementById("btnp100").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P104:")) {
         //document.getElementById('p104-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
@@ -819,20 +846,28 @@ function sleep(ms) {
           document.getElementById("home-message").innerHTML = "Querying P605. Please wait...";
           p605_tid = setInterval(p605_start, 1000);//5000);
           button_press = 14;
-        }
+        } else if (p104_param_update == 1)
+          p104_update();
         param_query = 3;
+        document.getElementById("btnp104").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P105:")) {
         document.getElementById('p105-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         param_query = 4;
         if(param_start_val == 0)
           settings_msg_clear();
+        document.getElementById("btnp105").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P106:")) {
         document.getElementById('p106-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         param_query = 5;
         if(param_start_val == 0)
           settings_msg_clear();
+        if(p104_param_update == 1) {
+          p104_param_update = 0;
+          param_query = 8;
+        }
+        document.getElementById("btnp106").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P808:")) {
         //document.getElementById('p808-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
@@ -840,6 +875,7 @@ function sleep(ms) {
         param_query = 6;
         if(param_start_val == 0)
           settings_msg_clear();
+        document.getElementById("btnp808").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P605:")) {
         //document.getElementById('p605-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
@@ -863,13 +899,15 @@ function sleep(ms) {
           echo_tid = setInterval(echo_start, 1000);//5000);
 
         }
-        param_query = 7;     
+        param_query = 7;
+        document.getElementById("btnp605").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P21:")) {
         document.getElementById('p21-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
         param_query = 8;
         param_start_val = 0;
         settings_msg_clear();
+        document.getElementById("btnp21").style.background = '#33B34A';   //PULSAR GREEN
       }
     }
 
@@ -940,7 +978,7 @@ async function incomingData(event){
 
             var elements = document.querySelectorAll("button[type=button]");   
             for(var i = 0, len = elements.length; i < len; i++)
-              document.getElementById(elements[i].id).style.background = '#33B34A';
+              document.getElementById(elements[i].id).style.background = '#33B34A';   //PULSAR GREEN
 
             //sendATL('AT+PT=1');
             sendAT('AT+PWRLVL');
@@ -1277,6 +1315,13 @@ async function sendAT(cmd) {
     function ptModeON() {
       sendAT('AT+PT=1');
       settings_msg_clear();
+      if(button_press == 28)	{
+        document.getElementById("btndeviceName").style.background = '#33B34A';   //PULSAR GREEN
+        button_press = 0;
+      } else if(button_press == 29) {
+        document.getElementById("btnpWord").style.background = '#33B34A';   //PULSAR GREEN
+        button_press = 0;
+      }           
     }
 
     function ptModeON1() {
@@ -1322,6 +1367,7 @@ async function sendAT(cmd) {
               }
               else {
                 document.getElementById("settings-message").innerHTML = "Setting new Bluetooth device name. Please wait...";
+                document.getElementById("btndeviceName").style.background = '#FFCE34';   //PULSAR YELLOW
                 if((login_stage >= 3) && (isDisconnecting == 0)) {
                   setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
                   login_stage = 2; // back to the PT mode
@@ -1345,6 +1391,7 @@ async function sendAT(cmd) {
                 }
                 else {
                   document.getElementById("settings-message").innerHTML = "Setting new Bluetooth password. Please wait...";
+                  document.getElementById("btnpWord").style.background = '#FFCE34';   //PULSAR YELLOW
                   if((login_stage >= 3) && (isDisconnecting == 0)) {
                     setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
                     login_stage = 2; // back to the PT mode
@@ -1393,6 +1440,7 @@ async function sendAT(cmd) {
       document.getElementById("settings-message").innerHTML = "Acquiring RADAR Parameters. Please wait...";
         switch(button_press) {
           case 19:
+            document.getElementById("btnp241").style.background = '#FFCE34';   //PULSAR YELLOW
             if(p241List.options[p241List.selectedIndex].index == 0) {
               sendAT('/P241');
               document.getElementById("settings-message").innerHTML = "Querying P241. Please wait...";
@@ -1403,6 +1451,7 @@ async function sendAT(cmd) {
             }    
             break;            
           case 20:
+            document.getElementById("btnp100").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p100-box").value == "")
             if(p100List.options[p100List.selectedIndex].index == 0) {
               sendAT('/P100');
@@ -1416,6 +1465,7 @@ async function sendAT(cmd) {
             //document.getElementById("p100-box").value = "";
             break;
           case 21:
+            document.getElementById("btnp104").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p104-box").value == "")
             if(p104List.options[p104List.selectedIndex].index == 0) {
               sendAT('/P104');
@@ -1425,10 +1475,12 @@ async function sendAT(cmd) {
               //sendAT('/P104:'+ document.getElementById("p104-box").value);
               sendAT('/P104:'+ p104List.options[p104List.selectedIndex].index);
               document.getElementById("settings-message").innerHTML = "Updating P104. Please wait...";
+              p104_param_update = 1;
             }
             //document.getElementById("p104-box").value = "";         
             break;
           case 22:
+            document.getElementById("btnp105").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p105-box").value == "") {
               sendAT('/P105');
               document.getElementById("settings-message").innerHTML = "Querying P105. Please wait...";
@@ -1440,6 +1492,7 @@ async function sendAT(cmd) {
             document.getElementById("p105-box").value = "";  
             break;
           case 23:
+            document.getElementById("btnp106").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p106-box").value == "") {
               sendAT('/P106');
               document.getElementById("settings-message").innerHTML = "Querying P106. Please wait...";
@@ -1451,6 +1504,7 @@ async function sendAT(cmd) {
             document.getElementById("p106-box").value = "";
             break;
           case 24:
+            document.getElementById("btnp808").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p808-box").value == "")
             if(p808List.options[p808List.selectedIndex].index == 0) {
               sendAT('/P808');
@@ -1464,6 +1518,7 @@ async function sendAT(cmd) {
             //document.getElementById("p808-box").value = "";        
             break;
           case 25:
+            document.getElementById("btnp605").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p605-box").value == "")
             if(p605List.options[p605List.selectedIndex].index == 0) {
               sendAT('/P605');
@@ -1477,6 +1532,7 @@ async function sendAT(cmd) {
             //document.getElementById("p605-box").value = "";           
             break;                        
           case 26:
+            document.getElementById("btnp21").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p21-box").value == "") {
               sendAT('/P21');
               document.getElementById("settings-message").innerHTML = "Querying P21. Please wait...";
@@ -2139,7 +2195,7 @@ function myLoadFunction() {
           <table style="width:100%"> <!-- check here: start of the trace box -->
             <tr>
               <td>
-                <div class="chartBox" style="position: left; margin: auto; height:100%; width:52rem">
+                <div class="chartBox" style="position: left; margin: auto; height:30rem; width:52rem">
                     <canvas id="myChart"></canvas>
                 </div>  
               </td>                 
@@ -2273,6 +2329,16 @@ function myLoadFunction() {
                     data: data,
                     plugins: [plugin, arbitraryLine], // Uses both plugins
                     options: {
+                      plugins: {
+                        legend: {
+                            labels: {
+                                // This more specific font property overrides the global property
+                                font: {
+                                    size: 24,
+                                }
+                            }
+                        }
+                      },
                     maintainAspectRatio: false,                                      
                     scales: {                                 
                         x: {
@@ -2280,6 +2346,9 @@ function myLoadFunction() {
                             title: {
                                 display: true,
                                 text: p104_units,//'mtrs',
+                                font: {
+                                  size: 24,
+                                }
                             },
                             grid: {                
                             },
@@ -2294,18 +2363,27 @@ function myLoadFunction() {
                                 else
                                   return (index + 1) % valtest === 0 ? rounding.toFixed(1) : undefined; // Shows rounded value in Xaxis aling with gridline,
                                 },                                                                      // undefined don't shows gridlines
-                                maxRotation: 0,   // Rotate the tick labels to show horizontally                     
-                            }                     
+                                maxRotation: 90,   // Rotate the tick labels to show horizontally                
+                                font: {
+                                  size: 24,
+                                }
+                            },                     
                         },                                       
                         y: {
                             title: {
                                 display: true,
                                 text: 'mV',
+                                font: {
+                                  size: 24,
+                                }
                             },                        
                             max: 1000,
                             min:0,
                             ticks: {
-                                stepSize: 100
+                                stepSize: 100,
+                                font: {
+                                  size: 24,
+                                }
                             },
                             beginAtZero: true
                         },               
@@ -2568,7 +2646,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2022<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.5<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.6<br></p>
           </td>
         </tr>
       </table>
