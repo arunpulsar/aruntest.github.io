@@ -3,11 +3,11 @@ var power_lvl = 0;
 var new_power_lvl = 0;
 
 function update_range(val) {
-    if(val > 0 && val <= 3){ // 3m        
-        document.getElementById("rangevalue1").innerHTML="3m";
+    if(val > 0 && val <= 4){ // 3m  // Previous check was up to 3 for 3m      
+        document.getElementById("rangevalue1").innerHTML="4m";
         document.getElementById("myRange").value = 8;
     }
-    else if(val > 3 && val <= 5){ // 5m  
+    else if(val > 4 && val <= 5){ // 5m // Previous check was between 3 and 5
         document.getElementById("rangevalue1").innerHTML="5m";
         document.getElementById("myRange").value = 13;
     }
@@ -37,8 +37,8 @@ function testtest(e) {
     // set the progress bar at the certain %
     if(e > 0 && e <= 8){ // 3m        
         // send the PWRLVL - 3;
-        new_power_lvl = 3;
-        document.getElementById("rangevalue1").innerHTML="3m";
+        new_power_lvl = 4;  // Previous value was 3 for 30m
+        document.getElementById("rangevalue1").innerHTML="4m";
     }
     else if(e > 8 && e <= 13){ // 5m
         // send the PWRLVL - 5;
