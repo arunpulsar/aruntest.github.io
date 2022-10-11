@@ -1,0 +1,45 @@
+CACHE MANIFEST
+# v1.0 : 11-10-2022
+
+CACHE:
+
+# pages
+https://pulsarmeasurement.com/web-app/index.html
+
+# styles & scripts
+https://pulsarmeasurement.com/web-app/css/element.css
+https://pulsarmeasurement.com/web-app/css/font-awesome.min.css
+https://pulsarmeasurement.com/web-app/css/normalize.min.css
+https://pulsarmeasurement.com/web-app/css/skel-noscript.css
+https://pulsarmeasurement.com/web-app/css/slider.css
+https://pulsarmeasurement.com/web-app/css/style.css
+https://pulsarmeasurement.com/web-app/css/style-desktop.css
+https://pulsarmeasurement.com/web-app/css/style-lr.css
+https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.eot
+https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.svg
+https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.ttf
+https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.woff
+https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.woff2
+https://pulsarmeasurement.com/web-app/fonts/segoeui.ttf
+https://pulsarmeasurement.com/web-app/fonts/segoeui.woff
+https://pulsarmeasurement.com/web-app/fonts/segoeui.woff2
+https://pulsarmeasurement.com/web-app/fonts/segoeuibold.ttf
+https://pulsarmeasurement.com/web-app/fonts/segoeuibold.woff
+https://pulsarmeasurement.com/web-app/fonts/segoeuibold.woff2
+https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.ttf
+https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.woff
+https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.woff2
+https://pulsarmeasurement.com/web-app/js/bootstrap.min.js
+https://pulsarmeasurement.com/web-app/js/chart.js
+https://pulsarmeasurement.com/web-app/js/ekko-lightbox.js
+https://pulsarmeasurement.com/web-app/js/jquery-2.1.1.min.js
+https://pulsarmeasurement.com/web-app/js/script-lr2.js
+https://pulsarmeasurement.com/web-app/js/slider.js
+
+# images
+https://pulsarmeasurement.com/web-app/img/pulsaricon-rgb64_2.png
+https://pulsarmeasurement.com/web-app/img/pulsarlogo.svg
+https://pulsarmeasurement.com/web-app/img/tank1.png
+
+FALLBACK:
+/ /offline.html
