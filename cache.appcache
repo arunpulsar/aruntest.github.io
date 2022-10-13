@@ -4,43 +4,43 @@ CACHE MANIFEST
 CACHE:
 
 # pages
-https://pulsarmeasurement.com/web-app/index.html
+/index.html
 
 # styles & scripts
-https://pulsarmeasurement.com/web-app/css/element.css
-https://pulsarmeasurement.com/web-app/css/font-awesome.min.css
-https://pulsarmeasurement.com/web-app/css/jura.css
-https://pulsarmeasurement.com/web-app/css/normalize.min.css
-https://pulsarmeasurement.com/web-app/css/skel-noscript.css
-https://pulsarmeasurement.com/web-app/css/slider.css
-https://pulsarmeasurement.com/web-app/css/style.css
-https://pulsarmeasurement.com/web-app/css/style-desktop.css
-https://pulsarmeasurement.com/web-app/css/style-lr.css
-https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.eot
-https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.svg
-https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.ttf
-https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.woff
-https://pulsarmeasurement.com/web-app/fonts/fontawesome-webfont.woff2
-https://pulsarmeasurement.com/web-app/fonts/segoeui.ttf
-https://pulsarmeasurement.com/web-app/fonts/segoeui.woff
-https://pulsarmeasurement.com/web-app/fonts/segoeui.woff2
-https://pulsarmeasurement.com/web-app/fonts/segoeuibold.ttf
-https://pulsarmeasurement.com/web-app/fonts/segoeuibold.woff
-https://pulsarmeasurement.com/web-app/fonts/segoeuibold.woff2
-https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.ttf
-https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.woff
-https://pulsarmeasurement.com/web-app/fonts/segoeuisemibold.woff2
-https://pulsarmeasurement.com/web-app/js/bootstrap.min.js
-https://pulsarmeasurement.com/web-app/js/chart.js
-https://pulsarmeasurement.com/web-app/js/ekko-lightbox.js
-https://pulsarmeasurement.com/web-app/js/jquery-2.1.1.min.js
-https://pulsarmeasurement.com/web-app/js/script-lr2.js
-https://pulsarmeasurement.com/web-app/js/slider.js
+/css/element.css
+/css/font-awesome.min.css
+/css/jura.css
+/css/normalize.min.css
+/css/skel-noscript.css
+/css/slider.css
+/css/style.css
+/css/style-desktop.css
+/css/style-lr.css
+/fonts/fontawesome-webfont.eot
+/fonts/fontawesome-webfont.svg
+/fonts/fontawesome-webfont.ttf
+/fonts/fontawesome-webfont.woff
+/fonts/fontawesome-webfont.woff2
+/fonts/segoeui.ttf
+/fonts/segoeui.woff
+/fonts/segoeui.woff2
+/fonts/segoeuibold.ttf
+/fonts/segoeuibold.woff
+/fonts/segoeuibold.woff2
+/fonts/segoeuisemibold.ttf
+/fonts/segoeuisemibold.woff
+/fonts/segoeuisemibold.woff2
+/js/bootstrap.min.js
+/js/chart.js
+/js/ekko-lightbox.js
+/js/jquery-2.1.1.min.js
+/js/script-lr2.js
+/js/slider.js
 
 # images
-https://pulsarmeasurement.com/web-app/img/pulsaricon-rgb64_2.png
-https://pulsarmeasurement.com/web-app/img/pulsarlogo.svg
-https://pulsarmeasurement.com/web-app/img/tank1.png
+/img/pulsaricon-rgb64_2.png
+/img/pulsarlogo.svg
+/img/tank1.png
 
 FALLBACK:
 / /offline.html
