@@ -1,6 +1,6 @@
 self.addEventListener('install', e => {
     e.waitUntil(
-      caches.open('video-store').then(function(cache) {
+      caches.open('web-app-offline').then(function(cache) {
         return cache.addAll([
             '/index.html',
             '/css/element.css',
