@@ -3,6 +3,7 @@ self.addEventListener('install', e => {
       caches.open('web-app-offline').then(function(cache) {
         return cache.addAll([
             '/index.html',
+            '/index.js',
             '/css/element.css',
             '/css/font-awesome.min.css',
             '/css/jura.css',
@@ -32,7 +33,6 @@ self.addEventListener('install', e => {
             '/js/jquery-2.1.1.min.js',
             '/js/script-lr2.js',
             '/js/slider.js',
-            '/js/index.js',
             '/img/pulsaricon-rgb64_2.png',
             '/img/pulsarlogo.svg',
             '/img/tank1.png'
