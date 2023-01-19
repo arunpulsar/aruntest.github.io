@@ -1367,6 +1367,50 @@ async function sendAT(cmd) {
       button_press = 8;
     }
 
+    // Function to set Bluetooth password
+    function set_bt_pwd() {
+      document.getElementById("settings-message").innerHTML = "Setting new Bluetooth password. Please wait...";
+      document.getElementById("btnpWord").style.background = '#FFCE34';   //PULSAR YELLOW
+      if((login_stage >= 3) && (isDisconnecting == 0)) {
+        setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
+        login_stage = 2; // back to the PT mode
+        //document.getElementById('btn_mode').innerHTML ='NORMAL MODE';
+      }
+      setTimeout(writePassword, 2000);
+      setTimeout(ptModeON, 3000);
+    }
+
+    // Creates an impromptu dialog with input request
+    var recon_pwd = {
+      recon_pwd0: {
+        title: 'RECONFIRM PASSWORD',
+        height: 400,
+        width: 350,
+        modal: true,
+        html:'<label>Please reconfirm the password:&nbsp; <input type="password" id="password" name="password" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;" ></label> <br />',
+        buttons: {OK: 1},
+        submit:function(e,v,m,f){
+          if(v){
+            // console.log($("#password").val()); // Value entered in the password box
+            if(document.getElementById("pWord-box").value == $("#password").val())  // Password match
+              set_bt_pwd();
+            else
+              alert("Passwords do not match!");
+          }
+        }
+      },
+    };
+
+    function reconfirm_password() {
+      // let reconfirm_pwd = prompt('Please reconfirm the password!');
+      // if(reconfirm_pwd == document.getElementById("pWord-box").value)
+      //   set_bt_pwd();
+      // else
+      //   alert('The passwords do not match!');
+      // Added jquery-impromptu plugin 
+      $.prompt(recon_pwd);
+    }
+
     function bluetooth_param_check() {
       if((login_stage >= 2) && (isDisconnecting == 0)) {
         tids_trace_reset();
@@ -1407,15 +1451,16 @@ async function sendAT(cmd) {
                   settings_msg_clear();
                 }
                 else {
-                  document.getElementById("settings-message").innerHTML = "Setting new Bluetooth password. Please wait...";
-                  document.getElementById("btnpWord").style.background = '#FFCE34';   //PULSAR YELLOW
-                  if((login_stage >= 3) && (isDisconnecting == 0)) {
-                    setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
-                    login_stage = 2; // back to the PT mode
-                    //document.getElementById('btn_mode').innerHTML ='NORMAL MODE';
-                  }
-                  setTimeout(writePassword, 2000);
-                  setTimeout(ptModeON, 3000);
+                  reconfirm_password();
+                  // document.getElementById("settings-message").innerHTML = "Setting new Bluetooth password. Please wait...";
+                  // document.getElementById("btnpWord").style.background = '#FFCE34';   //PULSAR YELLOW
+                  // if((login_stage >= 3) && (isDisconnecting == 0)) {
+                  //   setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
+                  //   login_stage = 2; // back to the PT mode
+                  //   //document.getElementById('btn_mode').innerHTML ='NORMAL MODE';
+                  // }
+                  // setTimeout(writePassword, 2000);
+                  // setTimeout(ptModeON, 3000);
                 }
               }                
               else {
@@ -1428,7 +1473,7 @@ async function sendAT(cmd) {
             break;
         }
       } else {
-        log('No device connected!');
+        //log('No device connected!');
         alert('No device connected!');
       }
     }
@@ -1564,7 +1609,7 @@ async function sendAT(cmd) {
             break;
         }
       } else {
-        log('Device not in Normal mode!');
+        //log('Device not in Normal mode!');
         alert('Device not in Normal mode!');
       }
     }
@@ -1923,12 +1968,14 @@ function myLoadFunction() {
 
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
 <link href="css/element.css" rel="stylesheet">
+<link href="css/jquery-impromptu.css" rel="stylesheet">
 <!-- <link href="css/jura.css" rel="stylesheet"> -->
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="./js/ekko-lightbox.js"></script>
 <script src="js/slider.js"></script>
 <script src="index.js" defer></script>
+<script src="js/jquery-impromptu.js"></script>
 
 
 <style>
@@ -1949,7 +1996,7 @@ function myLoadFunction() {
 <link rel="icon" type="image/x-icon" href="./img/pulsaricon-rgb64_2.png" /> 
 </head>
 <!-- <body onload="myLoadFunction()" onbeforeunload="return bleExitPage2()"> -->
-<body onload="myLoadFunction()"></body>
+<body onload="myLoadFunction()">
 <!-- partial:index.partial.html -->
 <section class="accordion">
 <section id="header">
@@ -2122,7 +2169,7 @@ function myLoadFunction() {
 
                   <table style="width:100%">
                   <tr>
-                    <td><input type="text" placeholder="Enter the command" id="cmd" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:546px; height:80px; " onkeydown="wasEnter(this)"></td>
+                    <td><input type="text" placeholder="Enter the command" id="cmd" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:546px; height:80px; " onkeydown="wasEnter(this)"></td>
  
                     <td>
                         <button type="button" id="btnSend" class="button" onclick="send_command();">
@@ -2526,13 +2573,13 @@ function myLoadFunction() {
               <tr>
                 <td><label id = "deviceName" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:80px; height:80px;">DEVICE NAME</label></td>
                 <td></td><td></td><td></td><td></td>
-                <td><input type="text" id="deviceName-box" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 28; wasEnter3(this);"></td>
+                <td><input type="text" id="deviceName-box" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 28; wasEnter3(this);"></td>
                 <td><button type="button" id="btndeviceName" class="button" onclick="button_press = 28; bluetooth_param_check();">UPDATE</button></td>
               </tr>
               <tr>
                 <td><label id = "pWord" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:80px; height:80px;">PIN NUMBER</label></td>
                 <td></td><td></td><td></td><td></td>
-                <td><input type="password" id="pWord-box" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 29; wasEnter3(this);"></td>
+                <td><input type="password" id="pWord-box" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 29; wasEnter3(this);"></td>
                 <td><button type="button" id="btnpWord" class="button" onclick="button_press = 29; bluetooth_param_check();">UPDATE</button></td>
               </tr>
             </table>
@@ -2565,10 +2612,10 @@ function myLoadFunction() {
                   <option value="1"> 0 = OFF </option>  
                   <option value="2"> 1 = Inst. Liquid </option>  
                   <option value="3"> 2 = Inst. Solid </option>  
-                  <option value="4"> 3 = Inst. Liquid </option>  
+                  <!-- <option value="4"> 3 = Inst. Liquid </option>   -->
                   <option value="5"> 4 = Meas. Liquid </option>  
                   <option value="6"> 5 = Meas. Solid </option>  
-                  <option value="7"> 6 = Meas. Solid </option>  
+                  <!-- <option value="7"> 6 = Meas. Solid </option>   -->
                   <option value="8"> 7 = Health </option>  
                 </select>
                 </td>
@@ -2603,12 +2650,12 @@ function myLoadFunction() {
             </tr>
             <tr>
               <td><label id = "p105" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:80px; height:80px;">EMPTY DISTANCE (P105)</label></td>
-              <td><input type="text" id="p105-box" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 22; wasEnter2(this)"></td>
+              <td><input type="text" id="p105-box" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 22; wasEnter2(this)"></td>
               <td><button type="button" id="btnp105" class="button" onclick="button_press = 22; param_check();">UPDATE</button></td>
             </tr>
             <tr>
               <td><label id = "p106" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:80px; height:80px;">SPAN (P106)</label></td>
-              <td><input type="text" id="p106-box" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 23; wasEnter2(this);"></td>
+              <td><input type="text" id="p106-box" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 23; wasEnter2(this);"></td>
               <td><button type="button" id="btnp106" class="button" onclick="button_press = 23; param_check();">UPDATE</button></td>
             </tr>
             <tr>
@@ -2635,7 +2682,7 @@ function myLoadFunction() {
                 <option value="3"> 2 = Tonnes </option>  
                 <option value="4"> 3 = m³ </option>  
                 <option value="5"> 4 = Litres </option>  
-                <option value="6"> 5 = UK Gal </option>  
+                <option value="6"> 5 = Imp/UK Gal </option>  
                 <option value="7"> 6 = US Gal </option>  
                 <option value="8"> 7 = ft³ </option>  
                 <option value="9"> 8 = Barrels </option>  
@@ -2645,7 +2692,7 @@ function myLoadFunction() {
             </tr>
             <tr>
               <td><label id = "p21" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:80px; height:80px;">SET DISTANCE (P21)</label></td>
-              <td><input type="text" id="p21-box" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 26; wasEnter2(this);"></td>
+              <td><input type="text" id="p21-box" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:270px; height:80px;" onkeydown="button_press = 26; wasEnter2(this);"></td>
               <td><button type="button" id="btnp21" class="button" onclick="button_press = 26; param_check();">UPDATE</button></td>
             </tr>
           </table>
@@ -2663,7 +2710,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2022<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.7<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.8<br></p>
           </td>
         </tr>
       </table>

@@ -8,6 +8,7 @@ self.addEventListener('install', e => {
             '/aruntest.github.io/sw.js',
             '/aruntest.github.io/css/element.css',
             '/aruntest.github.io/css/font-awesome.min.css',
+            '/aruntest.github.io/css/jura.css',
             '/aruntest.github.io/css/normalize.min.css',
             '/aruntest.github.io/css/skel-noscript.css',
             '/aruntest.github.io/css/slider.css',
