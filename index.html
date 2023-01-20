@@ -194,7 +194,7 @@ function sleep(ms) {
           p605_units = "Litres";
           break;
         case 5:
-          p605_units = "UK Gal";
+          p605_units = "Imp Gal";
           break;
         case 6:
           p605_units = "US Gal";
@@ -1385,9 +1385,10 @@ async function sendAT(cmd) {
       recon_pwd0: {
         title: 'RECONFIRM PASSWORD',
         height: 400,
-        width: 350,
+        width: 500,
         modal: true,
-        html:'<label>Please reconfirm the password:&nbsp; <input type="password" id="password" name="password" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;" ></label> <br />',
+        html:'<label>Please reconfirm the password:&nbsp; <input type="password" id="password" name="password" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;" ></label> <br />' +
+            '<label> <span class="emphasized">Kindly note down password for safekeeping </span></label> <br />',
         buttons: {OK: 1},
         submit:function(e,v,m,f){
           if(v){
@@ -1929,6 +1930,13 @@ function myLoadFunction() {
   /* Add some hover effects to buttons */
   .form-container .btn:hover, .open-button:hover {
     opacity: 1;
+  }
+
+  /* Used in the label of Impromptu message */
+  .emphasized {
+    font-size: 18pt;
+    font-style: italic;
+    font-weight: normal;
   }
 </style>
 
@@ -2682,7 +2690,7 @@ function myLoadFunction() {
                 <option value="3"> 2 = Tonnes </option>  
                 <option value="4"> 3 = m³ </option>  
                 <option value="5"> 4 = Litres </option>  
-                <option value="6"> 5 = Imp/UK Gal </option>  
+                <option value="6"> 5 = Imperial Gal </option>  
                 <option value="7"> 6 = US Gal </option>  
                 <option value="8"> 7 = ft³ </option>  
                 <option value="9"> 8 = Barrels </option>  
@@ -2710,7 +2718,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2022<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.8<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.9<br></p>
           </td>
         </tr>
       </table>
