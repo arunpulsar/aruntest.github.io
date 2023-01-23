@@ -1497,6 +1497,7 @@ async function sendAT(cmd) {
 
     // Check and decide the parameter recall for selected number of parameters
     function param_check() {
+      let list_value;
       if((login_stage >= 3) && (isDisconnecting == 0)) {
       tids_trace_reset();
       isIgnore=0;
@@ -1504,25 +1505,28 @@ async function sendAT(cmd) {
         switch(button_press) {
           case 19:
             document.getElementById("btnp241").style.background = '#FFCE34';   //PULSAR YELLOW
-            if(p241List.options[p241List.selectedIndex].index == 0) {
+            list_value = document.getElementById("p241List").value; // Checking list value rather than list selected index
+            if(list_value == 0) {
               sendAT('/P241');
               document.getElementById("settings-message").innerHTML = "Querying P241. Please wait...";
             }
-            else {
-              sendAT('/P241:'+ (parseInt(p241List.options[p241List.selectedIndex].index) - 1).toString() );
+            else {              
+              list_value--;
+              sendAT('/P241:'+ list_value.toString());
               document.getElementById("settings-message").innerHTML = "Updating P241. Please wait...";
             }    
             break;            
           case 20:
             document.getElementById("btnp100").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p100-box").value == "")
-            if(p100List.options[p100List.selectedIndex].index == 0) {
+            list_value = document.getElementById("p100List").value;
+            if(list_value == 0) {
               sendAT('/P100');
               document.getElementById("settings-message").innerHTML = "Querying P100. Please wait...";
             }
             else {
               //sendAT('/P100:'+ document.getElementById("p100-box").value);
-              sendAT('/P100:'+ p100List.options[p100List.selectedIndex].index);  
+              sendAT('/P100:'+ list_value.toString());
               document.getElementById("settings-message").innerHTML = "Updating P100. Please wait...";
             }      
             //document.getElementById("p100-box").value = "";
@@ -1530,13 +1534,14 @@ async function sendAT(cmd) {
           case 21:
             document.getElementById("btnp104").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p104-box").value == "")
-            if(p104List.options[p104List.selectedIndex].index == 0) {
+            list_value = document.getElementById("p104List").value;
+            if(list_value == 0) {
               sendAT('/P104');
               document.getElementById("settings-message").innerHTML = "Querying P104. Please wait...";
             }
             else {
               //sendAT('/P104:'+ document.getElementById("p104-box").value);
-              sendAT('/P104:'+ p104List.options[p104List.selectedIndex].index);
+              sendAT('/P104:'+ list_value.toString());
               document.getElementById("settings-message").innerHTML = "Updating P104. Please wait...";
               p104_param_update = 1;
             }
@@ -1569,13 +1574,14 @@ async function sendAT(cmd) {
           case 24:
             document.getElementById("btnp808").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p808-box").value == "")
-            if(p808List.options[p808List.selectedIndex].index == 0) {
+            list_value = document.getElementById("p808List").value;
+            if(list_value == 0) {
               sendAT('/P808');
               document.getElementById("settings-message").innerHTML = "Querying P808. Please wait...";
             }
             else {
               //sendAT('/P808:'+ document.getElementById("p808-box").value);
-              sendAT('/P808:'+ p808List.options[p808List.selectedIndex].index);
+              sendAT('/P808:'+ list_value.toString());
               document.getElementById("settings-message").innerHTML = "Updating P808. Please wait...";
             }
             //document.getElementById("p808-box").value = "";        
@@ -1583,13 +1589,15 @@ async function sendAT(cmd) {
           case 25:
             document.getElementById("btnp605").style.background = '#FFCE34';   //PULSAR YELLOW
             //if(document.getElementById("p605-box").value == "")
-            if(p605List.options[p605List.selectedIndex].index == 0) {
+            list_value = document.getElementById("p605List").value;
+            if(list_value == 0) {
               sendAT('/P605');
               document.getElementById("settings-message").innerHTML = "Querying P605. Please wait...";
             }
             else {
               //sendAT('/P605:'+ document.getElementById("p605-box").value);
-              sendAT('/P605:'+ (parseInt(p605List.options[p605List.selectedIndex].index) - 1).toString() );
+              list_value--;
+              sendAT('/P605:'+ list_value.toString());
               document.getElementById("settings-message").innerHTML = "Updating P605. Please wait...";
             }
             //document.getElementById("p605-box").value = "";           
@@ -2716,10 +2724,10 @@ function myLoadFunction() {
       <table>
         <tr>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2022<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 117%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.9<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.10<br></p>
           </td>
         </tr>
       </table>
