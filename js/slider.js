@@ -68,7 +68,7 @@ function testtest(e) {
     if((login_stage >= 2) && (isDisconnecting == 0)) {
         tids_trace_reset();
         isIgnore=0;
-        document.getElementById("settings-message").innerHTML = "Setting new Bluetooth range. Please wait...";
+        document.getElementById("settings-message").innerHTML = lang.top_message11;//"Setting new Bluetooth range. Please wait...";
         if((login_stage >= 3) && (isDisconnecting == 0)) {
             setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
             login_stage = 2; // back to the PT mode
