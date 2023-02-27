@@ -1072,23 +1072,29 @@ async function incomingData(event){
     
     async function bleTDisconnect()
     {
-      //log("login_stage="+login_stage+" isIgnore="+isIgnore+" isIgnore_2="+isIgnore_2+" isDisconnecting="+isDisconnecting+" button_press="+button_press);
-      if (device.gatt.connected) {
-          device.gatt.disconnect();
-          log(lang.log_message9);//log(" → Disconnected");
+      try {
+        //log("login_stage="+login_stage+" isIgnore="+isIgnore+" isIgnore_2="+isIgnore_2+" isDisconnecting="+isDisconnecting+" button_press="+button_press);
+        if(device == null)
+            log(lang.log_message10);
+        else if (device.gatt.connected) {
+            device.gatt.disconnect();
+            log(lang.log_message9);//log(" → Disconnected");
+        }
+        else {
+            log(lang.log_message10);//log(' → Bluetooth Device is already disconnected');
+            
+        }
+        var elements = document.querySelectorAll("button[type=button]");   
+          for(var i = 0, len = elements.length; i < len; i++)
+            document.getElementById(elements[i].id).style.background = '#F37021';
+        button_press=0;
+        login_stage = 0;
+        isDisconnecting=0; // completed
+        // isTerminated=0;
+        //await sleep(3 * 1000);  // NOT NECESSARY
+      } catch (error) {
+        console.error(error);
       }
-      else {
-          log(lang.log_message10);//log(' → Bluetooth Device is already disconnected');
-          
-      }
-      var elements = document.querySelectorAll("button[type=button]");   
-        for(var i = 0, len = elements.length; i < len; i++)
-          document.getElementById(elements[i].id).style.background = '#F37021';
-      button_press=0;
-      login_stage = 0;
-      isDisconnecting=0; // completed
-      // isTerminated=0;
-      //await sleep(3 * 1000);  // NOT NECESSARY
     }
 
     async function bleT1Disconnect()
