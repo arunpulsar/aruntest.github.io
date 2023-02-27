@@ -1423,7 +1423,27 @@ async function sendAT(cmd) {
       // else
       //   alert('The passwords do not match!');
       // Added jquery-impromptu plugin
-      $.prompt(recon_pwd);
+      //$.prompt(recon_pwd); // Disabled due to the reinitialisation required for language parameters (lang.reconfirm_pwd_title, lang.reconfirm_pwd_msg1 and lang.reconfirm_pwd_msg2).
+      // The below method requires the html to be info to be added before the impromptu element.
+      $.prompt('<label id="recon_msg1" name="recon_msg1">' + lang.reconfirm_pwd_msg1 + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
+            '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang.reconfirm_pwd_msg2 + '</label> <br />', {
+        title: lang.reconfirm_pwd_title,//"RECONFIRM PASSWORD",
+        modal: true,
+        // html:'<label id="recon_msg1" name="recon_msg1">' + lang.reconfirm_pwd_msg1 + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
+        //     '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang.reconfirm_pwd_msg2 + '</label> <br />',
+        buttons: {OK: 1},
+        //position: { container: 'h1', x: 200, y: 60, height: 400, width: 1000, arrow: 'tc' },
+        position: { height: 400, width: 900 },
+        submit:function(e,v,m,f){
+          if(v){
+            // console.log($("#password").val()); // Value entered in the password box
+            if(document.getElementById("pWord-box").value == $("#password").val())  // Password match
+              set_bt_pwd();
+            else
+              alert(lang.alert_message2);//alert("Passwords do not match!");
+          }
+        }
+      });
     }
 
     function bluetooth_param_check() {
@@ -1684,6 +1704,164 @@ async function sendAT(cmd) {
       var textarea = document.getElementById('log');
       textarea.value = "";	  
       textarea.scrollTop = textarea.scrollHeight;
+    }
+
+    function page_lang_switch()
+    {
+      var textarea1 = document.getElementById('data-log');
+      textarea1.value = "";
+      textarea1 = document.getElementById('data-log_t');
+      textarea1.value = "";
+      document.getElementById("id_title").innerHTML = lang.title;
+      document.getElementById("id_home").innerHTML = lang.first_tab;
+      document.getElementById("id_trace").innerHTML = lang.second_tab;   
+      document.getElementById("id_parameters").innerHTML = lang.third_tab;   
+	    document.getElementById("btnScan").innerHTML = lang.scan_button;
+      document.getElementById("btnEnd").innerHTML = lang.end_button;
+      document.getElementById("data-log-label").innerHTML = lang.data_log_label;
+      document.getElementById("parameters-label").innerHTML = lang.parameter_label;
+      document.getElementById("level-label").innerHTML = lang.level_label;
+      document.getElementById("distance-label").innerHTML = lang.distance_label;
+      document.getElementById("status-label").innerHTML = lang.status_label;
+      document.getElementById("command-box-label").innerHTML = lang.command_box_label;
+      document.getElementsByName('command-box')[0].placeholder = lang.command_box_placeholder;
+      document.getElementById("btnSend").innerHTML = lang.send_button;
+      document.getElementById("btnClear").innerHTML = lang.clear_button;
+      document.getElementById("lang_select").innerHTML = lang.language_label;
+      document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang.language_dropdown_0;
+      document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang.language_dropdown_1;
+      document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang.language_dropdown_2;
+			document.getElementById("btn_trace").innerHTML = lang.trace_button1;  
+      document.getElementById("parameters-label-t").innerHTML = lang.parameter_label;
+      document.getElementById("level-label-t").innerHTML = lang.level_label;
+      document.getElementById("distance-label-t").innerHTML = lang.distance_label;
+      document.getElementById("status-label-t").innerHTML = lang.status_label;
+      document.getElementById("btndeviceName").innerHTML = lang.update_button;
+      document.getElementById("btnpWord").innerHTML = lang.update_button;
+      document.getElementById("btnp241").innerHTML = lang.update_button;
+      document.getElementById("btnp100").innerHTML = lang.update_button;
+      document.getElementById("btnp104").innerHTML = lang.update_button;
+      document.getElementById("btnp105").innerHTML = lang.update_button;
+      document.getElementById("btnp106").innerHTML = lang.update_button;
+      document.getElementById("btnp808").innerHTML = lang.update_button;
+      document.getElementById("btnp605").innerHTML = lang.update_button;
+      document.getElementById("btnp21").innerHTML = lang.update_button;
+      document.getElementById("bluetooth-parameters-label").innerHTML = lang.bluetooth_parameters_label;
+      document.getElementById("bt-range-label1").innerHTML = lang.range_label;
+      document.getElementById("deviceName").innerHTML = lang.device_name_label;
+      document.getElementById("pWord").innerHTML = lang.pin_number_label;
+      document.getElementById("radar-parameters-label").innerHTML = lang.radar_parameters_label;
+      document.getElementById("p241").innerHTML = lang.indicator_mode_label;
+      document.getElementById("p100").innerHTML = lang.measurement_mode_label;
+      document.getElementById("p104").innerHTML = lang.measurement_units_label;
+      document.getElementById("p105").innerHTML = lang.empty_distance_label;
+      document.getElementById("p106").innerHTML = lang.span_label;
+      document.getElementById("p808").innerHTML = lang.fail_mode_label;
+      document.getElementById("p605").innerHTML = lang.volume_units_label;
+      document.getElementById("p21").innerHTML = lang.p21_label;
+      document.getElementsByName('p241dropdown')[0].options[0].innerHTML = lang.p241_dropdown_0;
+      document.getElementsByName('p241dropdown')[0].options[1].innerHTML = lang.p241_dropdown_1;
+      document.getElementsByName('p241dropdown')[0].options[2].innerHTML = lang.p241_dropdown_2;
+      document.getElementsByName('p241dropdown')[0].options[3].innerHTML = lang.p241_dropdown_3;
+      // document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_4;
+      document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_5;
+      document.getElementsByName('p241dropdown')[0].options[5].innerHTML = lang.p241_dropdown_6;
+      // document.getElementsByName('p241dropdown')[0].options[7].innerHTML = lang.p241_dropdown_7;
+      document.getElementsByName('p241dropdown')[0].options[6].innerHTML = lang.p241_dropdown_8;
+      document.getElementsByName('p100dropdown')[0].options[0].innerHTML = lang.p100_dropdown_0;
+      document.getElementsByName('p100dropdown')[0].options[1].innerHTML = lang.p100_dropdown_1;
+      document.getElementsByName('p100dropdown')[0].options[2].innerHTML = lang.p100_dropdown_2;
+      document.getElementsByName('p100dropdown')[0].options[3].innerHTML = lang.p100_dropdown_3;
+      document.getElementsByName('p100dropdown')[0].options[4].innerHTML = lang.p100_dropdown_4;    
+      document.getElementsByName('p104dropdown')[0].options[0].innerHTML = lang.p104_dropdown_0;
+      document.getElementsByName('p104dropdown')[0].options[1].innerHTML = lang.p104_dropdown_1;
+      document.getElementsByName('p104dropdown')[0].options[2].innerHTML = lang.p104_dropdown_2;
+      document.getElementsByName('p104dropdown')[0].options[3].innerHTML = lang.p104_dropdown_3;
+      document.getElementsByName('p104dropdown')[0].options[4].innerHTML = lang.p104_dropdown_4;
+      document.getElementsByName('p104dropdown')[0].options[5].innerHTML = lang.p104_dropdown_5;
+      document.getElementsByName('p808dropdown')[0].options[0].innerHTML = lang.p808_dropdown_0;
+      document.getElementsByName('p808dropdown')[0].options[1].innerHTML = lang.p808_dropdown_1;
+      document.getElementsByName('p808dropdown')[0].options[2].innerHTML = lang.p808_dropdown_2;
+      document.getElementsByName('p808dropdown')[0].options[3].innerHTML = lang.p808_dropdown_3;
+      document.getElementsByName('p808dropdown')[0].options[4].innerHTML = lang.p808_dropdown_4;
+      document.getElementsByName('p808dropdown')[0].options[5].innerHTML = lang.p808_dropdown_5;
+      document.getElementsByName('p605dropdown')[0].options[0].innerHTML = lang.p605_dropdown_0;
+      document.getElementsByName('p605dropdown')[0].options[1].innerHTML = lang.p605_dropdown_1;
+      document.getElementsByName('p605dropdown')[0].options[2].innerHTML = lang.p605_dropdown_2;
+      document.getElementsByName('p605dropdown')[0].options[3].innerHTML = lang.p605_dropdown_3;
+      document.getElementsByName('p605dropdown')[0].options[4].innerHTML = lang.p605_dropdown_4;
+      document.getElementsByName('p605dropdown')[0].options[5].innerHTML = lang.p605_dropdown_5;
+      document.getElementsByName('p605dropdown')[0].options[6].innerHTML = lang.p605_dropdown_6;
+      document.getElementsByName('p605dropdown')[0].options[7].innerHTML = lang.p605_dropdown_7;
+      document.getElementsByName('p605dropdown')[0].options[8].innerHTML = lang.p605_dropdown_8;
+      document.getElementsByName('p605dropdown')[0].options[9].innerHTML = lang.p605_dropdown_9; 
+      clearlog();
+    }
+
+    addLanguageScript = function(lang) {
+      var head = document.getElementsByTagName("head")[0],
+      script = document.createElement('script');
+      script.type = 'text/javascript'
+      script.src = 'js/lang.'+ lang + '.js'
+      head.appendChild(script);
+    };
+
+    function lang_switch()
+    {
+      let list_value;
+      var scriptTag;
+      var head;
+      var script;
+      var el = document.createElement("script");
+      list_value = document.getElementById("lang_select_List").value; // Checking list value rather than list selected index
+      if(list_value == 1) {        
+        // $("script[src='js/lang.de.js']").remove();  
+        // addLanguageScript('en');
+
+        // alert("English");
+
+        // scriptTag = document.createElement('script');
+        // scriptTag.setAttribute('src','js/lang.en.js');
+        // document.head.appendChild(scriptTag);     
+
+        // head= document.getElementsByTagName('head')[0];
+        // script= document.createElement('script');
+        // script.src= 'js/lang.en.js';
+        // head.appendChild(script);
+
+        // el.src = "js/lang.en.js";
+        // document.body.appendChild(el);
+
+        el.setAttribute('src', 'js/lang.en.js');
+        document.head.appendChild(el);
+
+        page_lang_switch();
+        //alert(list_value);
+      }
+      else if(list_value == 2){
+        // $("script[src='js/lang.en.js']").remove();  
+        // addLanguageScript('de'); 
+
+        // alert("German"); 
+
+        // scriptTag = document.createElement('script');
+        // scriptTag.setAttribute('src','js/lang.de.js');
+        // document.head.appendChild(scriptTag);
+
+        // head= document.getElementsByTagName('head')[0];
+        // script= document.createElement('script');
+        // script.src= 'js/lang.de.js';
+        // head.appendChild(script);
+
+        // el.src = "js/lang.de.js";
+        // document.body.appendChild(el);
+
+        el.setAttribute('src', 'js/lang.de.js');
+        document.head.appendChild(el);
+
+        page_lang_switch();
+        //alert(list_value);
+      }   
     }
 </script>
 
@@ -2191,8 +2369,8 @@ function myLoadFunction() {
                         <td><label id = "command-box-label" class="label_default" style="font-family:'Segoe UI Bold';  font-size: 24pt; font-weight: bold; width:80px; height:80px;">COMMAND BOX</label></td>
                       </tr>
                     </table>
-                  
-
+                  <!-- <table style="width:100%"> -->
+                  <td>
                   <table style="width:100%">
                   <tr>
                     <td><input type="text" name="command-box" placeholder="Enter the command" id="cmd" autocomplete="off" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; width:546px; height:80px; " onkeydown="wasEnter(this)"></td>
@@ -2205,11 +2383,34 @@ function myLoadFunction() {
 
                     <td> 
                     </td>
-                  </tr>                      
+                  </tr> 
+                  <tr>
+                    <td><label id = "lang_select" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:80px; height:80px;">LANGUAGE </label>
+                    <select name = "lang_select_dropdown" id = "lang_select_List" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:250px; height:80px;" onchange="lang_switch(); setTimeout(lang_switch, 100);"> 
+                      <option value="0"> Choose Language </option>  
+                      <option value="1"> English </option>  
+                      <option value="2"> German </option> 
+                    </select>
+                    </td>
+                    <td>
+                      <button type="button" id="btnClear" class="button" onclick="clearlog(); button_press = 9">
+                        CLEAR
+                      </button>
+                    </td>
+                  </tr>
                   </table>
-                  <table style="width:80%;">
+                </td>
+                <!-- <td>
+                  <table style="width:100%;">
                     <tr>
-                      <table style="width:100%;">
+                      <td>
+                        <button type="button" id="btnSend" class="button" onclick="send_command();">
+                            SEND
+                        </button>
+                    </td>                          
+                    </tr>
+                    <tr> -->
+                      <!-- <table style="width:100%;"> -->
                         <!-- <td style="position: center;">
                           <button type="button" class="button button-style1" id="btn_trace1" onclick="button_press=10; trace_off();">TRACE OFF</button>
                           <script>
@@ -2222,7 +2423,7 @@ function myLoadFunction() {
                             document.getElementById("btn_mode").style.visibility="hidden";
                           </script>
                         </td> -->
-                        <td></td><td></td>
+                        <!-- <td></td><td></td>
                         <td></td><td></td>
                         <td></td><td></td>     
                         <td></td><td></td>
@@ -2239,29 +2440,42 @@ function myLoadFunction() {
                         <td></td><td></td>  
                         <td></td><td></td>
                         <td></td><td></td>
-                        <td></td>
-                        <td>
+                        <td></td> -->
+                        <!-- <td><label id = "lang_select" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:80px; height:80px;">LANGUAGE</label></td>
+                        <td><select name = "lang_select_dropdown" id = "lang_select_List" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:250px; height:80px;" onchange="lang_switch(); setTimeout(lang_switch, 100);""> 
+                          <option value="0"> Choose Language </option>  
+                          <option value="1"> English </option>  
+                          <option value="2"> German </option> 
+                        </select>
+                        </td> -->
+                        <!-- <td>
                           <button type="button" id="btnClear" class="button" onclick="clearlog(); button_press = 9">
                             CLEAR
                           </button>
-                        </td>
-                        <script>
-                          document.getElementById("btnScan").innerHTML = lang.scan_button;
-                          document.getElementById("btnEnd").innerHTML = lang.end_button;
-                          document.getElementById("data-log-label").innerHTML = lang.data_log_label;
-                          document.getElementById("parameters-label").innerHTML = lang.parameter_label;
-                          document.getElementById("level-label").innerHTML = lang.level_label;
-                          document.getElementById("distance-label").innerHTML = lang.distance_label;
-                          document.getElementById("status-label").innerHTML = lang.status_label;
-                          document.getElementById("command-box-label").innerHTML = lang.command_box_label;
-                          document.getElementsByName('command-box')[0].placeholder = lang.command_box_placeholder;
-                          document.getElementById("btnSend").innerHTML = lang.send_button;
-                          document.getElementById("btnClear").innerHTML = lang.clear_button;
-                        </script>
-                      </table>
-                      
-                    </tr>                    
+                        </td> -->
+                      <!-- </table>                       -->
+                    <!-- </tr>
+                  
                   </table>
+                </td> -->
+                <script>
+                  document.getElementById("btnScan").innerHTML = lang.scan_button;
+                  document.getElementById("btnEnd").innerHTML = lang.end_button;
+                  document.getElementById("data-log-label").innerHTML = lang.data_log_label;
+                  document.getElementById("parameters-label").innerHTML = lang.parameter_label;
+                  document.getElementById("level-label").innerHTML = lang.level_label;
+                  document.getElementById("distance-label").innerHTML = lang.distance_label;
+                  document.getElementById("status-label").innerHTML = lang.status_label;
+                  document.getElementById("command-box-label").innerHTML = lang.command_box_label;
+                  document.getElementsByName('command-box')[0].placeholder = lang.command_box_placeholder;
+                  document.getElementById("btnSend").innerHTML = lang.send_button;
+                  document.getElementById("btnClear").innerHTML = lang.clear_button;
+                  document.getElementById("lang_select").innerHTML = lang.language_label;
+                  document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang.language_dropdown_0;
+                  document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang.language_dropdown_1;
+                  document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang.language_dropdown_2;
+                </script>  
+                <!-- </table> -->
               </div>
           </div>
       </article>
@@ -2817,7 +3031,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 117%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.11<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.12<br></p>
           </td>
         </tr>
       </table>

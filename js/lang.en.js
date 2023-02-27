@@ -139,4 +139,9 @@ lang = {
     reconfirm_pwd_title : "RECONFIRM PASSWORD",
     reconfirm_pwd_msg1: "Please reconfirm the password: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp",
     reconfirm_pwd_msg2 : "Kindly note down password for safekeeping",
+    language_label : "LANGUAGE",
+    language_dropdown_0: "Choose Language",
+    language_dropdown_1: "English",
+    language_dropdown_2: "German",
+
 };

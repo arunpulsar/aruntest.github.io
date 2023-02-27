@@ -139,4 +139,8 @@ lang = {
     reconfirm_pwd_title : "PASSWORT ERNEUT BESTÄTIGEN",
     reconfirm_pwd_msg1 : "Bitte bestätigen Sie das Passwort erneut: &nbsp",
     reconfirm_pwd_msg2 : "Bitte notieren Sie sich das Passwort zur sicheren Aufbewahrung",
+    language_label : "SPRACHE",
+    language_dropdown_0: "Sprache wählen",
+    language_dropdown_1: "Englisch",
+    language_dropdown_2: "Deutsch",
 };
