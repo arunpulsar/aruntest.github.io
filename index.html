@@ -24,7 +24,7 @@
   <script src="js/slider.js"></script>
   <script src="index.js" defer></script>
   <script src="js/jquery-impromptu.js"></script>
-  <script src="js/lang.en.js"></script>
+  <script src="js/lang.js"></script>
 
   <style>
     .my_text
@@ -145,6 +145,9 @@ function sleep(ms) {
 
     var login_stage = 0;    // Login status
 
+    var currentlang = localStorage.getItem('lang_select_List');
+    var lang_map = lang_array.map(a => a.English);
+
     // Resetting all the variables
     function reset_params() {
       button_press = 0;
@@ -190,34 +193,34 @@ function sleep(ms) {
     function p605_volume_units() {
       switch(p605_units_val) {
         default:
-          p605_units = lang.p605_unit1;//"m³";
+          p605_units = lang_map[126];//"m³";
           break;
         case 0:
-          p605_units = lang.p605_unit2;//"None";
+          p605_units = lang_map[127];//"None";
           break;
         case 1:
-          p605_units = lang.p605_unit3;//"Tons";
+          p605_units = lang_map[128];//"Tons";
           break;
         case 2:
-          p605_units = lang.p605_unit4;//"Tonnes";
+          p605_units = lang_map[129];//"Tonnes";
           break;
         case 3:
-          p605_units = lang.p605_unit1;//"m³";
+          p605_units = lang_map[126];//"m³";
           break;
         case 4:
-          p605_units = lang.p605_unit5;//"Litres";
+          p605_units = lang_map[130];//"Litres";
           break;
         case 5:
-          p605_units = lang.p605_unit6;//"Imp Gal";
+          p605_units = lang_map[131];//"Imp Gal";
           break;
         case 6:
-          p605_units = lang.p605_unit7;//"US Gal";
+          p605_units = lang_map[132];//"US Gal";
           break;
         case 7:
-          p605_units = lang.p605_unit8;//"ft³";
+          p605_units = lang_map[133];//"ft³";
           break;
         case 8:
-          p605_units = lang.p605_unit9;//"Barrels";
+          p605_units = lang_map[134];//"Barrels";
           break;                                                                   
       }
     }
@@ -300,14 +303,14 @@ function sleep(ms) {
       if((login_stage == 3) && (isDisconnecting == 0) && ((isTraceOn == 0) && (presysState == 2))) {
         tids_trace_reset();
         // settings_clear();
-        document.getElementById('btn_trace').innerHTML = lang.trace_button1;//'TRACE OFF';
+        document.getElementById('btn_trace').innerHTML = lang_map[8];//'TRACE OFF';
         //setTimeout(trace_button_check, 2000);
 
         //log(' → Getting trace data');//log(' <- TRACE ON');
         login_stage = 4; // TRACE ON state
         isTraceOn=1;
-        document.getElementById("trace-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
-        document.getElementById("home-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
+        document.getElementById("trace-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
+        document.getElementById("home-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
 			  isIgnore_2=2; // NEED TO CHECK
         clearTimeout(p605_tid);
         clearTimeout(echo_tid);
@@ -349,49 +352,49 @@ function sleep(ms) {
             button_press = 19;
             document.getElementById("btnp241").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P241');
-            document.getElementById("settings-message").innerHTML = lang.top_message2;//"Querying P241. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[105];//"Querying P241. Please wait...";
             break;
           case 1:
             button_press = 20;
             document.getElementById("btnp100").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P100');
-            document.getElementById("settings-message").innerHTML = lang.top_message3;//"Querying P100. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[106];//"Querying P100. Please wait...";
             break;
           case 2:
             button_press = 21;
             document.getElementById("btnp104").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P104');
-            document.getElementById("settings-message").innerHTML = lang.top_message4;//"Querying P104. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[107];//"Querying P104. Please wait...";
             break;
           case 3:
             button_press = 22;
             document.getElementById("btnp105").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P105');
-            document.getElementById("settings-message").innerHTML = lang.top_message5;//"Querying P105. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[108];//"Querying P105. Please wait...";
             break;
           case 4:
             button_press = 23;
             document.getElementById("btnp106").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P106');
-            document.getElementById("settings-message").innerHTML = lang.top_message6;//"Querying P106. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[109];//"Querying P106. Please wait...";
             break;
           case 5:
             button_press = 24;
             document.getElementById("btnp808").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P808');
-            document.getElementById("settings-message").innerHTML = lang.top_message7;//"Querying P808. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[110];//"Querying P808. Please wait...";
             break;
           case 6:
             button_press = 25;
             document.getElementById("btnp605").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P605');
-            document.getElementById("settings-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
             break;
           case 7:
             button_press = 26;
             document.getElementById("btnp21").style.background = '#FFCE34';   //PULSAR YELLOW
             sendAT('/P21');
-            document.getElementById("settings-message").innerHTML = lang.top_message9;//"Querying P21. Please wait...";
+            document.getElementById("settings-message").innerHTML = lang_map[112];//"Querying P21. Please wait...";
             break;
           case 8:
             button_press = 0;
@@ -413,8 +416,8 @@ function sleep(ms) {
         clearTimeout(p605_tid);
         clearTimeout(param_tid);  
         sendAT('GET ECHO');
-        document.getElementById("trace-message").innerHTML = lang.top_message10;//"Acquiring ECHO data. Please wait...";
-        document.getElementById("home-message").innerHTML = lang.top_message10;//"Acquiring ECHO data. Please wait...";
+        document.getElementById("trace-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
+        document.getElementById("home-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
         // alert("sendAT('GET ECHO') : 1");
         button_press = 10;
         datem_tid = setInterval(datem_start, 5000);
@@ -433,8 +436,8 @@ function sleep(ms) {
             clearTimeout(p605_tid);
             clearTimeout(param_tid);
             sendAT('GET DATEM');
-            document.getElementById("trace-message").innerHTML = lang.top_message11;//"Acquiring DATEM data. Please wait...";
-            document.getElementById("home-message").innerHTML = lang.top_message11;//"Acquiring DATEM data. Please wait...";
+            document.getElementById("trace-message").innerHTML = lang_map[114];//"Acquiring DATEM data. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[114];//"Acquiring DATEM data. Please wait...";
             button_press = 11;
             echo_tid = setInterval(echo_start, 5000);
         } else {
@@ -453,8 +456,8 @@ function sleep(ms) {
             clearTimeout(datem_tid);
             clearTimeout(param_tid);
             sendAT('/P104');
-            document.getElementById("trace-message").innerHTML = lang.top_message4;//"Querying P104. Please wait...";
-            document.getElementById("home-message").innerHTML = lang.top_message4;//"Querying P104. Please wait...";
+            document.getElementById("trace-message").innerHTML = lang_map[107];//"Querying P104. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[107];//"Querying P104. Please wait...";
             button_press = 14;
             // p104_tid = setInterval(p104_start, 5000);
         } else {
@@ -473,8 +476,8 @@ function sleep(ms) {
             clearTimeout(datem_tid);
             clearTimeout(param_tid);
             sendAT('/P605');
-            document.getElementById("trace-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
-            document.getElementById("home-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
+            document.getElementById("trace-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
             button_press = 15;
             // p605_tid = setInterval(p605_start, 5000);
         } else {
@@ -501,8 +504,8 @@ function sleep(ms) {
               //sendAT('/P104');
               login_stage = 4; // TRACE ON state
               isTraceOn=1;
-              document.getElementById("trace-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
-              document.getElementById("home-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
+              document.getElementById("trace-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
+              document.getElementById("home-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
 			        isIgnore_2=2; // NEED TO CHECK
               clearTimeout(p605_tid);
               clearTimeout(echo_tid);
@@ -512,7 +515,7 @@ function sleep(ms) {
               button_press = 14;
           }
         } else {
-          log(lang.log_message1);//log('Device not in Normal mode!');//log('Device not in passthrough mode!');          
+          log(lang_map[64]);//log('Device not in Normal mode!');//log('Device not in passthrough mode!');          
         }
     }
     function Normal_mode() {        
@@ -535,20 +538,20 @@ function sleep(ms) {
           clearTimeout(echo_tid);
           clearTimeout(datem_tid);
           clearTimeout(param_tid);
-          document.getElementById('btn_trace').innerHTML = lang.trace_button2;//'TRACE ON';
+          document.getElementById('btn_trace').innerHTML = lang_map[9];//'TRACE ON';
           sendATL('AT+PT=1');
           //setTimeout(trace_button_check, 1000);
           //log(' <- AT+PT=1');
           document.getElementById('btn_mode').innerHTML ='ADVANCED MODE';
         }
         else  {
-          log(lang.log_message2);//log('No device connected!');
+          log(lang_map[65]);//log('No device connected!');
         }
     }
 
     function tids_trace_reset() {
       login_stage = 3; // back to the PT mode
-      document.getElementById('btn_trace').innerHTML = lang.trace_button2;//'TRACE ON';
+      document.getElementById('btn_trace').innerHTML = lang_map[9];//'TRACE ON';
       clearTimeout(p104_tid);
       clearTimeout(p605_tid);
       clearTimeout(echo_tid);
@@ -581,7 +584,7 @@ function sleep(ms) {
           isIgnore=1;
         }else{
           // start the static timers
-          document.getElementById('btn_trace').innerHTML = lang.trace_button1;//'TRACE OFF';
+          document.getElementById('btn_trace').innerHTML = lang_map[8];//'TRACE OFF';
           login_stage = 3;
           clearTimeout(p104_tid);
           clearTimeout(p605_tid);
@@ -590,13 +593,13 @@ function sleep(ms) {
           clearTimeout(param_tid);
           // sendAT('TRACE ON');
           isTraceOn=1;
-          document.getElementById("trace-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
-          document.getElementById("home-message").innerHTML = lang.top_message1;//"Acquiring trace data. Please wait...";
+          document.getElementById("trace-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
+          document.getElementById("home-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
           trace_button_check();
   //        isTraceOn=0;
         }
       } else {
-          alert(lang.log_message1);//alert('Device not in Normal mode!');//log('Device not in passthrough mode!');
+          alert(lang_map[64]);//alert('Device not in Normal mode!');//log('Device not in passthrough mode!');
       }
     }
 
@@ -605,7 +608,7 @@ function sleep(ms) {
      // log("send_command:: login_stage="+login_stage+" isIgnore="+isIgnore+" isIgnore_2="+isIgnore_2+" isDisconnecting="+isDisconnecting+" button_press="+button_press);
 
       if(document.getElementById("cmd").value == ""){
-        log(lang.log_message3);//log(" → Invalid param request");
+        log(lang_map[66]);//log(" → Invalid param request");
         return;  
       }
 
@@ -625,7 +628,7 @@ function sleep(ms) {
         }
       }
       else {
-        log(lang.log_message2);//log('No device connected!');
+        log(lang_map[65]);//log('No device connected!');
       }
     }
 
@@ -782,24 +785,24 @@ function sleep(ms) {
               bit7 = status_var & 128;
               
               if(status_var == 0)
-                status_str = lang.status1;//"OK";                        
+                status_str = lang_map[92];//"OK";                        
               else {
                   if (bit4 == 16) {
                       if (bit5 == 32)
-                          status_str = lang.status2;//"LOE fail high";
+                          status_str = lang_map[93];//"LOE fail high";
                       else if (bit6 == 64)
-                          status_str = lang.status3;//"LOE fail low";
+                          status_str = lang_map[94];//"LOE fail low";
                       else
-                          status_str = lang.status4;//"LOE fail";
+                          status_str = lang_map[95];//"LOE fail";
                   }
                   else if (bit3 == 8)
-                      status_str= lang.status5;//"LOE";
+                      status_str= lang_map[96];//"LOE";
                   else if (bit2 == 4)
-                      status_str= lang.status6;//"Temp";
+                      status_str= lang_map[97];//"Temp";
                   else if (bit1 == 2)
-                      status_str= lang.status7;//"Voltage";
+                      status_str= lang_map[98];//"Voltage";
                   else if (bit7 == 128)
-                      status_str= lang.status8;//"Alarm";
+                      status_str= lang_map[99];//"Alarm";
                   else
                       status_str= status_var;// + "\n\n";
               }
@@ -816,10 +819,10 @@ function sleep(ms) {
         // document.getElementById("lvl").innerHTML = "<span style='font-sze:12px; color: black; '>"+level_str+"</span>";
         // document.getElementById("dist").innerHTML = "<span style='font-sze:12px;color: black;  '>"+dist_str+"</span>";
 
-        textarea.value += lang.volume_string + /*"Volume\t= "*/ + volume_var.toFixed(3) + " " + p605_units + "\n";
-        textarea.value += lang.temp_string + /*"Temp\t= "*/ + temperature_var.toFixed(1) + " °C" + "\n";
+        textarea.value += lang_map[100] + /*"Volume\t= "*/ + volume_var.toFixed(3) + " " + p605_units + "\n";
+        textarea.value += lang_map[101] + /*"Temp\t= "*/ + temperature_var.toFixed(1) + " °C" + "\n";
         // textarea.value += "Noise\t\t= " + noise_var.toFixed(0) + " mV" + "\n";
-        textarea.value += lang.output_string + /*"Output\t= "*/ + mA_output_var.toFixed(2) + " mA";
+        textarea.value += lang_map[102] + /*"Output\t= "*/ + mA_output_var.toFixed(2) + " mA";
 
         // on the trace tab
         // document.getElementById("lvl_t").innerHTML = "<span style='font-sze:12px; color: black; '>"+level_str+"</span>";
@@ -837,7 +840,7 @@ function sleep(ms) {
         if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
         if((document.getElementById('p241List').value >=2) && (document.getElementById('p241List').value <=4))
-          alert(lang.alert_message1);//alert('Warning: Indicator (P241) is set to installation mode. Switch to Health mode (P241 = 7) after installation!');
+          alert(lang_map[85]);//alert('Warning: Indicator (P241) is set to installation mode. Switch to Health mode (P241 = 7) after installation!');
         document.getElementById("btnp241").style.background = '#33B34A';   //PULSAR GREEN
       }
       else if(string_val.includes("/P100:")) {
@@ -862,8 +865,8 @@ function sleep(ms) {
           clearTimeout(echo_tid);
           clearTimeout(datem_tid);
           clearTimeout(param_tid);
-          document.getElementById("trace-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
-          document.getElementById("home-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
+          document.getElementById("trace-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
+          document.getElementById("home-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
           p605_tid = setInterval(p605_start, 1000);//5000);
           button_press = 14;
         } else if (p104_param_update == 1)
@@ -914,8 +917,8 @@ function sleep(ms) {
           clearTimeout(datem_tid);
           clearTimeout(p104_tid);
           clearTimeout(param_tid);
-          document.getElementById("trace-message").innerHTML = lang.top_message10;//"Acquiring ECHO data. Please wait...";
-          document.getElementById("home-message").innerHTML = lang.top_message10;//"Acquiring ECHO data. Please wait...";
+          document.getElementById("trace-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
+          document.getElementById("home-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
           echo_tid = setInterval(echo_start, 1000);//5000);
 
         }
@@ -980,7 +983,7 @@ async function incomingData(event){
         if(string_check.includes("Entered PASSTHROUGH mode"))
         {
             login_stage = 3; // Entered PT mode
-            log(lang.log_message4);//log(" ← Log in Success");            
+            log(lang_map[67]);//log(" ← Log in Success");            
         }
         else if(string_check.includes("Exit PASSTHROUGH mode")){          
           //alert("Exit : isIgnore="+isIgnore+" login_stage="+login_stage+" isDisconnecting="+isDisconnecting+" string_check="+string_check);
@@ -988,13 +991,13 @@ async function incomingData(event){
         }
         else if(string_check.includes("PASSTHROUGH failed")){          
           login_stage = 2;
-          log(lang.log_message5);//log(" ← Normal mode failed");            
+          log(lang_map[68]);//log(" ← Normal mode failed");            
         }
         else if(string_check.includes("Logged In Success") || (string_check.includes("OK")  && login_stage == 1)){
           login_stage = 2;  // Logged in success mode
           closeForm();
           if(isDisconnecting == 0){
-            log(lang.log_message6);//log(" ← Connected");
+            log(lang_map[69]);//log(" ← Connected");
 
             var elements = document.querySelectorAll("button[type=button]");   
             for(var i = 0, len = elements.length; i < len; i++)
@@ -1006,12 +1009,12 @@ async function incomingData(event){
             setTimeout(trace_button_check, 3000);//2000); // UNDER TEST 1
           }else {
            // alert(isDisconnecting+" ::"+string_check);
-            log(lang.log_message7);//log(" ← Disconnecting");
+            log(lang_map[70]);//log(" ← Disconnecting");
           }
         }
         else if( ( string_check.includes("ERROR") || string_check.includes("Logged In failed")) && login_stage == 1 )
         {
-            document.getElementById('lblpsw').innerHTML = lang.login_message1;//'Login failed';
+            document.getElementById('lblpsw').innerHTML = lang_map[125];//'Login failed';
             document.getElementById('lblpsw').style.color = "red";
             document.getElementById("pswbox").value='';
             openForm();
@@ -1054,13 +1057,18 @@ async function incomingData(event){
         }        
       }
     }
+
+    function reload_webpage()
+    {
+      window.location = window.location.href;//window.location.reload();
+    }
   
     async function onDisconnected()
     {
       tids_trace_reset();
       reset_params();
-      document.getElementById('btn_trace').innerHTML = lang.trace_button1;//'TRACE OFF';
-      log(lang.log_message8);//log(" → Bluetooth connection terminated!");
+      document.getElementById('btn_trace').innerHTML = lang_map[8];//'TRACE OFF';
+      log(lang_map[71]);//log(" → Bluetooth connection terminated!");
       button_press=0;
       login_stage = 0;
       isDisconnecting=0; // completed
@@ -1068,20 +1076,26 @@ async function incomingData(event){
       var elements = document.querySelectorAll("button[type=button]");   
         for(var i = 0, len = elements.length; i < len; i++)
           document.getElementById(elements[i].id).style.background = '#F37021';
+      /*The below mentioned experimental functionality currently available in Chrome 101 works fine. 
+        But requires the user to enable the chrome://flags/#enable-web-bluetooth-new-permissions-backend flag.
+        This functionality is ideal and it does not requires the page to reload*/
+      //await device.forget();
+
+      setTimeout(reload_webpage, 1000);
     }
-    
+
     async function bleTDisconnect()
     {
       try {
         //log("login_stage="+login_stage+" isIgnore="+isIgnore+" isIgnore_2="+isIgnore_2+" isDisconnecting="+isDisconnecting+" button_press="+button_press);
         if(device == null)
-            log(lang.log_message10);
+            log(lang_map[73]);
         else if (device.gatt.connected) {
             device.gatt.disconnect();
-            log(lang.log_message9);//log(" → Disconnected");
+            log(lang_map[72]);//log(" → Disconnected");
         }
         else {
-            log(lang.log_message10);//log(' → Bluetooth Device is already disconnected');
+            log(lang_map[73]);//log(' → Bluetooth Device is already disconnected');
             
         }
         var elements = document.querySelectorAll("button[type=button]");   
@@ -1090,6 +1104,13 @@ async function incomingData(event){
         button_press=0;
         login_stage = 0;
         isDisconnecting=0; // completed
+
+        /*The below mentioned experimental functionality currently available in Chrome 101 works fine. 
+          But requires the user to enable the chrome://flags/#enable-web-bluetooth-new-permissions-backend flag.
+          This functionality is ideal and it does not requires the page to reload*/
+        //await device.forget();
+
+        setTimeout(reload_webpage, 1000);
         // isTerminated=0;
         //await sleep(3 * 1000);  // NOT NECESSARY
       } catch (error) {
@@ -1110,7 +1131,7 @@ async function incomingData(event){
         bleTDisconnect();//setTimeout(bleTDisconnect,1000);
       } 
       else {
-        log(lang.log_message2);//log('No device connected!');
+        log(lang_map[65]);//log('No device connected!');
       }
     }
 
@@ -1127,10 +1148,10 @@ async function incomingData(event){
       // clearTimeout(echo_tid);
       // clearTimeout(datem_tid);
       tids_trace_reset();
-      document.getElementById('btn_trace').innerHTML = lang.trace_button1;//'TRACE OFF';
+      document.getElementById('btn_trace').innerHTML = lang_map[8];//'TRACE OFF';
       // document.getElementById('btn_mode').innerHTML ='ADVANCED MODE';
 
-      log(lang.log_message11);//log(" → Disconnecting");
+      log(lang_map[74]);//log(" → Disconnecting");
       bleT1Disconnect();//setTimeout(bleT1Disconnect,1000);
     }
 
@@ -1174,7 +1195,7 @@ async function incomingData(event){
       }
 
       if(cmd === 'AT+PT=1'){
-          log(lang.log_message12);//log(' → Logging ...'   );
+          log(lang_map[75]);//log(' → Logging ...'   );
           await sleep(2 * 1000); // needed 
           isIgnore=1;
       }
@@ -1185,10 +1206,10 @@ async function incomingData(event){
         //log(' → Connecting ...'   );
       }
       else if(isDisconnecting == 2 ){
-        log(lang.log_message13);//log(' → Disconnecting ...'   );
+        log(lang_map[76]);//log(' → Disconnecting ...'   );
         isDisconnecting=0;
       }else{
-        log(lang.log_message14);//log(' → Connecting ...'   );
+        log(lang_map[77]);//log(' → Connecting ...'   );
       }
 
       // Append an extra character as expected by CodeLess
@@ -1199,7 +1220,7 @@ async function incomingData(event){
         await inboundChar.writeValue(encoder.encode(commandToSend));
       } 
       catch(error) {
-        log(lang.log_message15 + error);//log('Failed: ' + error);
+        log(lang_map[78] + error);//log('Failed: ' + error);
       }
     }
 
@@ -1209,10 +1230,10 @@ async function incomingData(event){
       try {
         // Define a scan filter and prepare for interaction with Codeless Service
           log('');
-          log(lang.log_message16);////log('Requesting Bluetooth Device...');
+          log(lang_map[79]);////log('Requesting Bluetooth Device...');
           device = await navigator.bluetooth.requestDevice(options);
-          log(lang.log_message17 + device.name);////log('Name: ' + device.name);
-          deviceName=lang.title + ':';/*'REFLECT: '+ '\n' + device.name;*/
+          log(lang_map[80] + device.name);////log('Name: ' + device.name);
+          deviceName=lang_map[0] + ':';/*'REFLECT: '+ '\n' + device.name;*/
           document.getElementById('id_title').innerHTML =deviceName;
           document.getElementById('device_title').innerHTML =device.name;
           document.getElementById('deviceName-box').value = device.name;
@@ -1226,7 +1247,7 @@ async function incomingData(event){
         const flowcontrolChar = await service.getCharacteristic(CNTRL_CHAR_UUID);
         await flowcontrolChar.startNotifications();
         flowcontrolChar.addEventListener('characteristicvaluechanged', incomingData);
-        log(lang.log_message18);//log('Ready to communicate!\n');
+        log(lang_map[81]);//log('Ready to communicate!\n');
         login_stage = 1;
         // sendATL('AT+AUTH=123321'); //--> BB: commented
         //sendATL('AT+AUTH=123654'); //--> BB: commented
@@ -1234,7 +1255,7 @@ async function incomingData(event){
         button_press = 3;
       }
       catch(error) {
-        log(lang.log_message15);//log('Failed: ' + error);
+        log(lang_map[78] + error);//log('Failed: ' + error);
       }
     }
 
@@ -1261,7 +1282,7 @@ async function sendAT(cmd) {
       }
       else if ((cmd != "GET ECHO") && (cmd != "GET DATEM") && !((isTraceOn == 1) && ((cmd == "/P104") || (cmd == "/P605")))) {
         if((cmd_sent == "AT+PWRLVL") && (power_init_query == 0))
-          log(lang.log_message19);//log(' → Checking bluetooth power level');
+          log(lang_map[82]);//log(' → Checking bluetooth power level');
         else
           log(' → ' + cmd );
       }
@@ -1273,13 +1294,13 @@ async function sendAT(cmd) {
         await inboundChar.writeValue(encoder.encode(commandToSend));
       } 
       catch(error) {
-        log(lang.log_message15);//log('Failed: ' + error);
+        log(lang_map[78] + error);//log('Failed: ' + error);
       }
     }
 
     function send_command_check() {
       tids_trace_reset();
-      log(lang.log_message20);//log(' → Sending command. Please wait...');
+      log(lang_map[83]);//log(' → Sending command. Please wait...');
       if(document.getElementById("cmd").value == 'AT+PT=0') {
         setTimeout(ptModeOFF1, 3000);
       }
@@ -1303,7 +1324,7 @@ async function sendAT(cmd) {
           isIgnore=0;
 
           if(document.getElementById("cmd").value == ""){
-            log(lang.log_message3);//log(" → Invalid param request");
+            log(lang_map[66]);//log(" → Invalid param request");
             return;  
           }
 
@@ -1322,7 +1343,7 @@ async function sendAT(cmd) {
           }    
         }
         else {
-          log(lang.log_message2);//log('No device connected!');
+          log(lang_map[65]);//log('No device connected!');
         }
       }
       else if((document.getElementById("cmd").value.includes("/ACCESS:")) || (document.getElementById("cmd").value.includes("AT+SETA="))){
@@ -1389,7 +1410,7 @@ async function sendAT(cmd) {
 
     // Function to set Bluetooth password
     function set_bt_pwd() {
-      document.getElementById("settings-message").innerHTML = lang.top_message12;//"Setting new Bluetooth password. Please wait...";
+      document.getElementById("settings-message").innerHTML = lang_map[115];//"Setting new Bluetooth password. Please wait...";
       document.getElementById("btnpWord").style.background = '#FFCE34';   //PULSAR YELLOW
       if((login_stage >= 3) && (isDisconnecting == 0)) {
         setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
@@ -1403,10 +1424,10 @@ async function sendAT(cmd) {
     // Creates an impromptu dialog with input request
     var recon_pwd = {
       recon_pwd0: {
-        title: lang.reconfirm_pwd_title,//"RECONFIRM PASSWORD",
+        title: lang_map[135],//"RECONFIRM PASSWORD",
         modal: true,
-        html:'<label id="recon_msg1" name="recon_msg1">' + lang.reconfirm_pwd_msg1 + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
-            '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang.reconfirm_pwd_msg2 + '</label> <br />',
+        html:'<label id="recon_msg1" name="recon_msg1">' + lang_map[136] + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
+            '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang_map[137] + '</label> <br />',
         buttons: {OK: 1},
         //position: { container: 'h1', x: 200, y: 60, height: 400, width: 1000, arrow: 'tc' },
         position: { height: 400, width: 900 },
@@ -1416,7 +1437,7 @@ async function sendAT(cmd) {
             if(document.getElementById("pWord-box").value == $("#password").val())  // Password match
               set_bt_pwd();
             else
-              alert(lang.alert_message2);//alert("Passwords do not match!");
+              alert(lang_map[86]);//alert("Passwords do not match!");
           }
         }
       },
@@ -1429,14 +1450,14 @@ async function sendAT(cmd) {
       // else
       //   alert('The passwords do not match!');
       // Added jquery-impromptu plugin
-      //$.prompt(recon_pwd); // Disabled due to the reinitialisation required for language parameters (lang.reconfirm_pwd_title, lang.reconfirm_pwd_msg1 and lang.reconfirm_pwd_msg2).
+      //$.prompt(recon_pwd); // Disabled due to the reinitialisation required for language parameters (lang_map[135], lang_map[136] and lang_map[137]).
       // The below method requires the html to be info to be added before the impromptu element.
-      $.prompt('<label id="recon_msg1" name="recon_msg1">' + lang.reconfirm_pwd_msg1 + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
-            '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang.reconfirm_pwd_msg2 + '</label> <br />', {
-        title: lang.reconfirm_pwd_title,//"RECONFIRM PASSWORD",
+      $.prompt('<label id="recon_msg1" name="recon_msg1">' + lang_map[136] + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
+            '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang_map[137] + '</label> <br />', {
+        title: lang_map[135],//"RECONFIRM PASSWORD",
         modal: true,
-        // html:'<label id="recon_msg1" name="recon_msg1">' + lang.reconfirm_pwd_msg1 + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
-        //     '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang.reconfirm_pwd_msg2 + '</label> <br />',
+        // html:'<label id="recon_msg1" name="recon_msg1">' + lang_map[136] + '</label> <input type="password" id="password" name="password" autocomplete="off" value="" style="font-size: 24pt; font-weight: 500; width:220px; height:65px;"><br />' +
+        //     '<label id="recon_msg2" name="recon_msg2" span class="emphasized">' + lang_map[137] + '</label> <br />',
         buttons: {OK: 1},
         //position: { container: 'h1', x: 200, y: 60, height: 400, width: 1000, arrow: 'tc' },
         position: { height: 400, width: 900 },
@@ -1446,7 +1467,7 @@ async function sendAT(cmd) {
             if(document.getElementById("pWord-box").value == $("#password").val())  // Password match
               set_bt_pwd();
             else
-              alert(lang.alert_message2);//alert("Passwords do not match!");
+              alert(lang_map[86]);//alert("Passwords do not match!");
           }
         }
       });
@@ -1459,16 +1480,16 @@ async function sendAT(cmd) {
         switch(button_press) {
           case 28:
             if(document.getElementById("deviceName-box").value == "") {            
-              alert(lang.alert_message3);//alert('Device Name is empty!');
+              alert(lang_map[87]);//alert('Device Name is empty!');
               settings_msg_clear();
             }
             else {
               if(document.getElementById("deviceName-box").value.length > 4) {
-                alert(lang.alert_message4);//alert('Device Name can only have a maximum of 4 alphanumeric characters!');
+                alert(lang_map[88]);//alert('Device Name can only have a maximum of 4 alphanumeric characters!');
                 settings_msg_clear();
               }
               else {
-                document.getElementById("settings-message").innerHTML = lang.top_message12;//"Setting new Bluetooth device name. Please wait...";
+                document.getElementById("settings-message").innerHTML = lang_map[144];//"Setting new Bluetooth device name. Please wait...";
                 document.getElementById("btndeviceName").style.background = '#FFCE34';   //PULSAR YELLOW
                 if((login_stage >= 3) && (isDisconnecting == 0)) {
                   setTimeout(ptModeOFF, 1000);//sendAT('AT+PT=0');
@@ -1482,13 +1503,13 @@ async function sendAT(cmd) {
             break;            
           case 29:
             if(document.getElementById("pWord-box").value == "") {            
-              alert(lang.alert_message5);//alert('Password is empty');
+              alert(lang_map[89]);//alert('Password is empty');
               settings_msg_clear();
             }
             else {             
               if((/^\d+$/.test(document.getElementById("pWord-box").value))) {
                 if(document.getElementById("pWord-box").value.length > 6) {
-                  alert(lang.alert_message6);//alert('Password can only have a maximum of 6 numeric characters!');
+                  alert(lang_map[90]);//alert('Password can only have a maximum of 6 numeric characters!');
                   settings_msg_clear();
                 }
                 else {
@@ -1505,7 +1526,7 @@ async function sendAT(cmd) {
                 }
               }                
               else {
-                alert(lang.alert_message7);//alert('Password should only contain numeric characters!');
+                alert(lang_map[91]);//alert('Password should only contain numeric characters!');
                 settings_msg_clear();
               }
             }
@@ -1515,7 +1536,7 @@ async function sendAT(cmd) {
         }
       } else {
         //log('No device connected!');
-        alert(lang.log_message2);//alert('No device connected!');
+        alert(lang_map[65]);//alert('No device connected!');
       }
     }
 
@@ -1541,19 +1562,19 @@ async function sendAT(cmd) {
       if((login_stage >= 3) && (isDisconnecting == 0)) {
       tids_trace_reset();
       isIgnore=0;
-      document.getElementById("settings-message").innerHTML = lang.top_message13;//"Acquiring RADAR Parameters. Please wait...";
+      document.getElementById("settings-message").innerHTML = lang_map[116];//"Acquiring RADAR Parameters. Please wait...";
         switch(button_press) {
           case 19:
             document.getElementById("btnp241").style.background = '#FFCE34';   //PULSAR YELLOW
             list_value = document.getElementById("p241List").value; // Checking list value rather than list selected index
             if(list_value == 0) {
               sendAT('/P241');
-              document.getElementById("settings-message").innerHTML = lang.top_message2;//"Querying P241. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[105];//"Querying P241. Please wait...";
             }
             else {              
               list_value--;
               sendAT('/P241:'+ list_value.toString());
-              document.getElementById("settings-message").innerHTML = lang.top_message14;//"Updating P241. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[117];//"Updating P241. Please wait...";
             }    
             break;            
           case 20:
@@ -1562,12 +1583,12 @@ async function sendAT(cmd) {
             list_value = document.getElementById("p100List").value;
             if(list_value == 0) {
               sendAT('/P100');
-              document.getElementById("settings-message").innerHTML = lang.top_message3;//"Querying P100. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[106];//"Querying P100. Please wait...";
             }
             else {
               //sendAT('/P100:'+ document.getElementById("p100-box").value);
               sendAT('/P100:'+ list_value.toString());
-              document.getElementById("settings-message").innerHTML = lang.top_message15;//"Updating P100. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[118];//"Updating P100. Please wait...";
             }      
             //document.getElementById("p100-box").value = "";
             break;
@@ -1577,12 +1598,12 @@ async function sendAT(cmd) {
             list_value = document.getElementById("p104List").value;
             if(list_value == 0) {
               sendAT('/P104');
-              document.getElementById("settings-message").innerHTML = lang.top_message4;//"Querying P104. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[107];//"Querying P104. Please wait...";
             }
             else {
               //sendAT('/P104:'+ document.getElementById("p104-box").value);
               sendAT('/P104:'+ list_value.toString());
-              document.getElementById("settings-message").innerHTML = lang.top_message16;//"Updating P104. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[119];//"Updating P104. Please wait...";
               p104_param_update = 1;
             }
             //document.getElementById("p104-box").value = "";         
@@ -1591,11 +1612,11 @@ async function sendAT(cmd) {
             document.getElementById("btnp105").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p105-box").value == "") {
               sendAT('/P105');
-              document.getElementById("settings-message").innerHTML = lang.top_message5;//"Querying P105. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[108];//"Querying P105. Please wait...";
             }
             else {
               sendAT('/P105:'+ document.getElementById("p105-box").value);
-              document.getElementById("settings-message").innerHTML = lang.top_message17;//"Updating P105. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[120];//"Updating P105. Please wait...";
             }
             document.getElementById("p105-box").value = "";  
             break;
@@ -1603,11 +1624,11 @@ async function sendAT(cmd) {
             document.getElementById("btnp106").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p106-box").value == "") {
               sendAT('/P106');
-              document.getElementById("settings-message").innerHTML = lang.top_message6;//"Querying P106. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[109];//"Querying P106. Please wait...";
             }
             else {
               sendAT('/P106:'+ document.getElementById("p106-box").value);  
-              document.getElementById("settings-message").innerHTML = lang.top_message18;//"Updating P106. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[121];//"Updating P106. Please wait...";
             }          
             document.getElementById("p106-box").value = "";
             break;
@@ -1617,12 +1638,12 @@ async function sendAT(cmd) {
             list_value = document.getElementById("p808List").value;
             if(list_value == 0) {
               sendAT('/P808');
-              document.getElementById("settings-message").innerHTML = lang.top_message7;//"Querying P808. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[110];//"Querying P808. Please wait...";
             }
             else {
               //sendAT('/P808:'+ document.getElementById("p808-box").value);
               sendAT('/P808:'+ list_value.toString());
-              document.getElementById("settings-message").innerHTML = lang.top_message19;//"Updating P808. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[122];//"Updating P808. Please wait...";
             }
             //document.getElementById("p808-box").value = "";        
             break;
@@ -1632,13 +1653,13 @@ async function sendAT(cmd) {
             list_value = document.getElementById("p605List").value;
             if(list_value == 0) {
               sendAT('/P605');
-              document.getElementById("settings-message").innerHTML = lang.top_message8;//"Querying P605. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[111];//"Querying P605. Please wait...";
             }
             else {
               //sendAT('/P605:'+ document.getElementById("p605-box").value);
               list_value--;
               sendAT('/P605:'+ list_value.toString());
-              document.getElementById("settings-message").innerHTML = lang.top_message20;//"Updating P605. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[123];//"Updating P605. Please wait...";
             }
             //document.getElementById("p605-box").value = "";           
             break;                        
@@ -1646,11 +1667,11 @@ async function sendAT(cmd) {
             document.getElementById("btnp21").style.background = '#FFCE34';   //PULSAR YELLOW
             if(document.getElementById("p21-box").value == "") {
               sendAT('/P21');
-              document.getElementById("settings-message").innerHTML = lang.top_message9;//"Querying P21. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[112];//"Querying P21. Please wait...";
             }
             else {
               sendAT('/P21:'+ document.getElementById("p21-box").value);
-              document.getElementById("settings-message").innerHTML = lang.top_message21;//"Updating P21. Please wait...";
+              document.getElementById("settings-message").innerHTML = lang_map[124];//"Updating P21. Please wait...";
             }
             document.getElementById("p21-box").value = "";        
             break; 
@@ -1659,7 +1680,7 @@ async function sendAT(cmd) {
         }
       } else {
         //log('Device not in Normal mode!');
-        alert(lang.log_message1);//alert('Device not in Normal mode!');
+        alert(lang_map[64]);//alert('Device not in Normal mode!');
       }
     }
   
@@ -1718,90 +1739,92 @@ async function sendAT(cmd) {
       textarea1.value = "";
       textarea1 = document.getElementById('data-log_t');
       textarea1.value = "";
-      document.getElementById("id_title").innerHTML = lang.title;
-      document.getElementById("id_home").innerHTML = lang.first_tab;
-      document.getElementById("id_trace").innerHTML = lang.second_tab;   
-      document.getElementById("id_parameters").innerHTML = lang.third_tab;   
-	    document.getElementById("btnScan").innerHTML = lang.scan_button;
-      document.getElementById("btnEnd").innerHTML = lang.end_button;
-      document.getElementById("data-log-label").innerHTML = lang.data_log_label;
-      document.getElementById("parameters-label").innerHTML = lang.parameter_label;
-      document.getElementById("level-label").innerHTML = lang.level_label;
-      document.getElementById("distance-label").innerHTML = lang.distance_label;
-      document.getElementById("status-label").innerHTML = lang.status_label;
-      document.getElementById("command-box-label").innerHTML = lang.command_box_label;
-      document.getElementsByName('command-box')[0].placeholder = lang.command_box_placeholder;
-      document.getElementById("btnSend").innerHTML = lang.send_button;
-      document.getElementById("btnClear").innerHTML = lang.clear_button;
-      document.getElementById("lang_select").innerHTML = lang.language_label;
-      document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang.language_dropdown_0;
-      document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang.language_dropdown_1;
-      document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang.language_dropdown_2;
-			document.getElementById("btn_trace").innerHTML = lang.trace_button1;  
-      document.getElementById("parameters-label-t").innerHTML = lang.parameter_label;
-      document.getElementById("level-label-t").innerHTML = lang.level_label;
-      document.getElementById("distance-label-t").innerHTML = lang.distance_label;
-      document.getElementById("status-label-t").innerHTML = lang.status_label;
-      document.getElementById("btndeviceName").innerHTML = lang.update_button;
-      document.getElementById("btnpWord").innerHTML = lang.update_button;
-      document.getElementById("btnp241").innerHTML = lang.update_button;
-      document.getElementById("btnp100").innerHTML = lang.update_button;
-      document.getElementById("btnp104").innerHTML = lang.update_button;
-      document.getElementById("btnp105").innerHTML = lang.update_button;
-      document.getElementById("btnp106").innerHTML = lang.update_button;
-      document.getElementById("btnp808").innerHTML = lang.update_button;
-      document.getElementById("btnp605").innerHTML = lang.update_button;
-      document.getElementById("btnp21").innerHTML = lang.update_button;
-      document.getElementById("bluetooth-parameters-label").innerHTML = lang.bluetooth_parameters_label;
-      document.getElementById("bt-range-label1").innerHTML = lang.range_label;
-      document.getElementById("deviceName").innerHTML = lang.device_name_label;
-      document.getElementById("pWord").innerHTML = lang.pin_number_label;
-      document.getElementById("radar-parameters-label").innerHTML = lang.radar_parameters_label;
-      document.getElementById("p241").innerHTML = lang.indicator_mode_label;
-      document.getElementById("p100").innerHTML = lang.measurement_mode_label;
-      document.getElementById("p104").innerHTML = lang.measurement_units_label;
-      document.getElementById("p105").innerHTML = lang.empty_distance_label;
-      document.getElementById("p106").innerHTML = lang.span_label;
-      document.getElementById("p808").innerHTML = lang.fail_mode_label;
-      document.getElementById("p605").innerHTML = lang.volume_units_label;
-      document.getElementById("p21").innerHTML = lang.p21_label;
-      document.getElementsByName('p241dropdown')[0].options[0].innerHTML = lang.p241_dropdown_0;
-      document.getElementsByName('p241dropdown')[0].options[1].innerHTML = lang.p241_dropdown_1;
-      document.getElementsByName('p241dropdown')[0].options[2].innerHTML = lang.p241_dropdown_2;
-      document.getElementsByName('p241dropdown')[0].options[3].innerHTML = lang.p241_dropdown_3;
+      document.getElementById("id_title").innerHTML = lang_map[0];       
+      document.getElementById("id_home").innerHTML = lang_map[1];
+      document.getElementById("id_trace").innerHTML = lang_map[2];   
+      document.getElementById("id_parameters").innerHTML = lang_map[3];   
+	    document.getElementById("btnScan").innerHTML = lang_map[4];
+      document.getElementById("btnEnd").innerHTML = lang_map[5];
+      document.getElementById("data-log-label").innerHTML = lang_map[11];
+      document.getElementById("parameters-label").innerHTML = lang_map[12];
+      document.getElementById("level-label").innerHTML = lang_map[13];
+      document.getElementById("distance-label").innerHTML = lang_map[14];
+      document.getElementById("status-label").innerHTML = lang_map[15];
+      document.getElementById("command-box-label").innerHTML = lang_map[16];
+      document.getElementsByName('command-box')[0].placeholder = lang_map[103];
+      document.getElementsByName('pswbox')[0].placeholder = lang_map[142];
+      document.getElementById("btnSend").innerHTML = lang_map[6];
+      document.getElementById("btnClear").innerHTML = lang_map[7];
+      document.getElementById("lang_select").innerHTML = lang_map[138];
+      document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang_map[139];
+      document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang_map[140];
+      document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang_map[141];
+			document.getElementById("btn_trace").innerHTML = lang_map[8];  
+      document.getElementById("parameters-label-t").innerHTML = lang_map[12];
+      document.getElementById("level-label-t").innerHTML = lang_map[13];
+      document.getElementById("distance-label-t").innerHTML = lang_map[14];
+      document.getElementById("status-label-t").innerHTML = lang_map[15];
+      document.getElementById("btndeviceName").innerHTML = lang_map[10];
+      document.getElementById("btnpWord").innerHTML = lang_map[10];
+      document.getElementById("btnp241").innerHTML = lang_map[10];
+      document.getElementById("btnp100").innerHTML = lang_map[10];
+      document.getElementById("btnp104").innerHTML = lang_map[10];
+      document.getElementById("btnp105").innerHTML = lang_map[10];
+      document.getElementById("btnp106").innerHTML = lang_map[10];
+      document.getElementById("btnp808").innerHTML = lang_map[10];
+      document.getElementById("btnp605").innerHTML = lang_map[10];
+      document.getElementById("btnp21").innerHTML = lang_map[10];
+      document.getElementById("bluetooth-parameters-label").innerHTML = lang_map[17];
+      document.getElementById("bt-range-label1").innerHTML = lang_map[18];
+      document.getElementById("deviceName").innerHTML = lang_map[19];
+      document.getElementById("pWord").innerHTML = lang_map[20];
+      document.getElementById("radar-parameters-label").innerHTML = lang_map[21];
+      document.getElementById("p241").innerHTML = lang_map[22];
+      document.getElementById("p100").innerHTML = lang_map[23];
+      document.getElementById("p104").innerHTML = lang_map[24];
+      document.getElementById("p105").innerHTML = lang_map[25];
+      document.getElementById("p106").innerHTML = lang_map[26];
+      document.getElementById("p808").innerHTML = lang_map[27];
+      document.getElementById("p605").innerHTML = lang_map[28];
+      document.getElementById("p21").innerHTML = lang_map[29];
+      document.getElementsByName('p241dropdown')[0].options[0].innerHTML = lang_map[30];
+      document.getElementsByName('p241dropdown')[0].options[1].innerHTML = lang_map[31];
+      document.getElementsByName('p241dropdown')[0].options[2].innerHTML = lang_map[32];
+      document.getElementsByName('p241dropdown')[0].options[3].innerHTML = lang_map[33];
       // document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_4;
-      document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_5;
-      document.getElementsByName('p241dropdown')[0].options[5].innerHTML = lang.p241_dropdown_6;
+      document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang_map[34];
+      document.getElementsByName('p241dropdown')[0].options[5].innerHTML = lang_map[35];
       // document.getElementsByName('p241dropdown')[0].options[7].innerHTML = lang.p241_dropdown_7;
-      document.getElementsByName('p241dropdown')[0].options[6].innerHTML = lang.p241_dropdown_8;
-      document.getElementsByName('p100dropdown')[0].options[0].innerHTML = lang.p100_dropdown_0;
-      document.getElementsByName('p100dropdown')[0].options[1].innerHTML = lang.p100_dropdown_1;
-      document.getElementsByName('p100dropdown')[0].options[2].innerHTML = lang.p100_dropdown_2;
-      document.getElementsByName('p100dropdown')[0].options[3].innerHTML = lang.p100_dropdown_3;
-      document.getElementsByName('p100dropdown')[0].options[4].innerHTML = lang.p100_dropdown_4;    
-      document.getElementsByName('p104dropdown')[0].options[0].innerHTML = lang.p104_dropdown_0;
-      document.getElementsByName('p104dropdown')[0].options[1].innerHTML = lang.p104_dropdown_1;
-      document.getElementsByName('p104dropdown')[0].options[2].innerHTML = lang.p104_dropdown_2;
-      document.getElementsByName('p104dropdown')[0].options[3].innerHTML = lang.p104_dropdown_3;
-      document.getElementsByName('p104dropdown')[0].options[4].innerHTML = lang.p104_dropdown_4;
-      document.getElementsByName('p104dropdown')[0].options[5].innerHTML = lang.p104_dropdown_5;
-      document.getElementsByName('p808dropdown')[0].options[0].innerHTML = lang.p808_dropdown_0;
-      document.getElementsByName('p808dropdown')[0].options[1].innerHTML = lang.p808_dropdown_1;
-      document.getElementsByName('p808dropdown')[0].options[2].innerHTML = lang.p808_dropdown_2;
-      document.getElementsByName('p808dropdown')[0].options[3].innerHTML = lang.p808_dropdown_3;
-      document.getElementsByName('p808dropdown')[0].options[4].innerHTML = lang.p808_dropdown_4;
-      document.getElementsByName('p808dropdown')[0].options[5].innerHTML = lang.p808_dropdown_5;
-      document.getElementsByName('p605dropdown')[0].options[0].innerHTML = lang.p605_dropdown_0;
-      document.getElementsByName('p605dropdown')[0].options[1].innerHTML = lang.p605_dropdown_1;
-      document.getElementsByName('p605dropdown')[0].options[2].innerHTML = lang.p605_dropdown_2;
-      document.getElementsByName('p605dropdown')[0].options[3].innerHTML = lang.p605_dropdown_3;
-      document.getElementsByName('p605dropdown')[0].options[4].innerHTML = lang.p605_dropdown_4;
-      document.getElementsByName('p605dropdown')[0].options[5].innerHTML = lang.p605_dropdown_5;
-      document.getElementsByName('p605dropdown')[0].options[6].innerHTML = lang.p605_dropdown_6;
-      document.getElementsByName('p605dropdown')[0].options[7].innerHTML = lang.p605_dropdown_7;
-      document.getElementsByName('p605dropdown')[0].options[8].innerHTML = lang.p605_dropdown_8;
-      document.getElementsByName('p605dropdown')[0].options[9].innerHTML = lang.p605_dropdown_9; 
+      document.getElementsByName('p241dropdown')[0].options[6].innerHTML = lang_map[36];
+      document.getElementsByName('p100dropdown')[0].options[0].innerHTML = lang_map[37];
+      document.getElementsByName('p100dropdown')[0].options[1].innerHTML = lang_map[38];
+      document.getElementsByName('p100dropdown')[0].options[2].innerHTML = lang_map[39];
+      document.getElementsByName('p100dropdown')[0].options[3].innerHTML = lang_map[40];
+      document.getElementsByName('p100dropdown')[0].options[4].innerHTML = lang_map[41];    
+      document.getElementsByName('p104dropdown')[0].options[0].innerHTML = lang_map[42];
+      document.getElementsByName('p104dropdown')[0].options[1].innerHTML = lang_map[43];
+      document.getElementsByName('p104dropdown')[0].options[2].innerHTML = lang_map[44];
+      document.getElementsByName('p104dropdown')[0].options[3].innerHTML = lang_map[45];
+      document.getElementsByName('p104dropdown')[0].options[4].innerHTML = lang_map[46];
+      document.getElementsByName('p104dropdown')[0].options[5].innerHTML = lang_map[47];
+      document.getElementsByName('p808dropdown')[0].options[0].innerHTML = lang_map[48];
+      document.getElementsByName('p808dropdown')[0].options[1].innerHTML = lang_map[49];
+      document.getElementsByName('p808dropdown')[0].options[2].innerHTML = lang_map[50];
+      document.getElementsByName('p808dropdown')[0].options[3].innerHTML = lang_map[51];
+      document.getElementsByName('p808dropdown')[0].options[4].innerHTML = lang_map[52];
+      document.getElementsByName('p808dropdown')[0].options[5].innerHTML = lang_map[53];
+      document.getElementsByName('p605dropdown')[0].options[0].innerHTML = lang_map[54];
+      document.getElementsByName('p605dropdown')[0].options[1].innerHTML = lang_map[55];
+      document.getElementsByName('p605dropdown')[0].options[2].innerHTML = lang_map[56];
+      document.getElementsByName('p605dropdown')[0].options[3].innerHTML = lang_map[57];
+      document.getElementsByName('p605dropdown')[0].options[4].innerHTML = lang_map[58];
+      document.getElementsByName('p605dropdown')[0].options[5].innerHTML = lang_map[59];
+      document.getElementsByName('p605dropdown')[0].options[6].innerHTML = lang_map[60];
+      document.getElementsByName('p605dropdown')[0].options[7].innerHTML = lang_map[61];
+      document.getElementsByName('p605dropdown')[0].options[8].innerHTML = lang_map[62];
+      document.getElementsByName('p605dropdown')[0].options[9].innerHTML = lang_map[63]; 
       clearlog();
+      save_curr_lang();
     }
 
     addLanguageScript = function(lang) {
@@ -1811,6 +1834,11 @@ async function sendAT(cmd) {
       script.src = 'js/lang.'+ lang + '.js'
       head.appendChild(script);
     };
+
+    function save_curr_lang() {
+      localStorage.setItem('lang_select_List', document.getElementById('lang_select_List').value);
+      // console.log(document.getElementById('lang_select_List').value);
+    }
 
     function lang_switch()
     {
@@ -1869,12 +1897,25 @@ async function sendAT(cmd) {
         //alert(list_value);
       }   
     }
+
+    function lang_array_switch()
+    {
+      let list_value;
+      list_value = document.getElementById("lang_select_List").value; // Checking list value rather than list selected index
+      if(list_value == 2)  
+        lang_map = lang_array.map(a => a.German);
+      else  // Default selection
+        lang_map = lang_array.map(a => a.English);
+      page_lang_switch();
+        // console.log(lang_map[1]);      
+    }
+
 </script>
 
 <script>
 
 function myLoadFunction() {  
-  log(lang.log_message21);//log("Click on 'Device scan' to scan");
+  log(lang_map[84]);//log("Click on 'Device scan' to scan");
 }
 
   function search(ele) {    
@@ -2202,6 +2243,13 @@ function myLoadFunction() {
 <!-- partial:index.partial.html -->
 <section class="accordion">
 <section id="header">
+  <script>
+    currentlang = localStorage.getItem('lang_select_List');
+    if(currentlang == 2)  
+      lang_map = lang_array.map(a => a.German);
+    else  // Default selection
+      lang_map = lang_array.map(a => a.English);
+  </script>
     <table>
       <tr style="width:100%">
           <td>
@@ -2216,7 +2264,7 @@ function myLoadFunction() {
               REFLECT
             </div>
             <script>
-              document.getElementById("id_title").innerHTML = lang.title;
+              document.getElementById("id_title").innerHTML = lang_map[0];
             </script>
             <div class="my_text" id="device_title"  style="font-family:'Segoe UI SemiBold';  font-size: 36pt; font-weight:500; color: white; text-align: center;"></div>
           </td> 
@@ -2249,9 +2297,9 @@ function myLoadFunction() {
       <button class="accordion-tab" data-actab-group="0" data-actab-id="2" id="id_parameters" onclick="c_state=2;updateState(c_state); param_update();">SETTINGS</button>      
     </section>
     <script>
-      document.getElementById("id_home").innerHTML = lang.first_tab;
-      document.getElementById("id_trace").innerHTML = lang.second_tab;   
-      document.getElementById("id_parameters").innerHTML = lang.third_tab;   
+      document.getElementById("id_home").innerHTML = lang_map[1];
+      document.getElementById("id_trace").innerHTML = lang_map[2];   
+      document.getElementById("id_parameters").innerHTML = lang_map[3];   
     </script>
     <section class="accordion-content">
 
@@ -2284,7 +2332,7 @@ function myLoadFunction() {
                         <!-- <label for="email"><b>Email</b></label>
                         <input type="text" placeholder="Enter Email" name="email" required> -->
                         <label for="psw" id="lblpsw" style="font-family:'Segoe UI Normal';  font-size: 24pt; font-style:Normal; font-weight:normal; height:50px; display: inline;""><b>Passcode</b></label>
-                        <input type="password" placeholder="Enter Passcode" id="pswbox" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; " name="psw" onkeydown="search(this) " required>            
+                        <input type="password" name ="pswbox" placeholder="Enter Passcode" id="pswbox" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500; " name="psw" onkeydown="search(this) " required>            
                         <button type="button" id="btnLogin" class="btn" style="font-family:'Segoe UI SemiBold';  font-size: 24pt; font-weight: 500;  " onclick="closeForm(); sendLoginCmd(); closeForm2();  ">LOGIN</button>
                         <!-- <button type="button" class="btn cancel" onclick="closeForm()">Close</button>  -->
                       </form>
@@ -2392,8 +2440,8 @@ function myLoadFunction() {
                   </tr> 
                   <tr>
                     <td><label id = "lang_select" class="label_default" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:80px; height:80px;">LANGUAGE </label>
-                    <select name = "lang_select_dropdown" id = "lang_select_List" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:250px; height:80px;" onchange="lang_switch(); setTimeout(lang_switch, 100);"> 
-                      <option value="0"> Choose Language </option>  
+                    <select name = "lang_select_dropdown" id = "lang_select_List" style="font-family:'Segoe UI SemiBold';  font-size: 16pt; font-weight: 500; width:250px; height:80px;" onchange="lang_array_switch();/*lang_switch(); setTimeout(lang_switch, 500);*/"> 
+                      <option value="0" disabled selected> Choose Language </option>  
                       <option value="1"> English </option>  
                       <option value="2"> German </option> 
                     </select>
@@ -2465,21 +2513,24 @@ function myLoadFunction() {
                   </table>
                 </td> -->
                 <script>
-                  document.getElementById("btnScan").innerHTML = lang.scan_button;
-                  document.getElementById("btnEnd").innerHTML = lang.end_button;
-                  document.getElementById("data-log-label").innerHTML = lang.data_log_label;
-                  document.getElementById("parameters-label").innerHTML = lang.parameter_label;
-                  document.getElementById("level-label").innerHTML = lang.level_label;
-                  document.getElementById("distance-label").innerHTML = lang.distance_label;
-                  document.getElementById("status-label").innerHTML = lang.status_label;
-                  document.getElementById("command-box-label").innerHTML = lang.command_box_label;
-                  document.getElementsByName('command-box')[0].placeholder = lang.command_box_placeholder;
-                  document.getElementById("btnSend").innerHTML = lang.send_button;
-                  document.getElementById("btnClear").innerHTML = lang.clear_button;
-                  document.getElementById("lang_select").innerHTML = lang.language_label;
-                  document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang.language_dropdown_0;
-                  document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang.language_dropdown_1;
-                  document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang.language_dropdown_2;
+                  document.getElementById("btnScan").innerHTML = lang_map[4];
+                  document.getElementById("btnEnd").innerHTML = lang_map[5];
+                  document.getElementById("data-log-label").innerHTML = lang_map[11];
+                  document.getElementById("parameters-label").innerHTML = lang_map[12];
+                  document.getElementById("level-label").innerHTML = lang_map[13];
+                  document.getElementById("distance-label").innerHTML = lang_map[14];
+                  document.getElementById("status-label").innerHTML = lang_map[15];
+                  document.getElementById("command-box-label").innerHTML = lang_map[16];
+                  document.getElementsByName('command-box')[0].placeholder = lang_map[103];
+                  document.getElementsByName('pswbox')[0].placeholder = lang_map[142];
+                  document.getElementById("btnSend").innerHTML = lang_map[6];
+                  document.getElementById("btnClear").innerHTML = lang_map[7];
+                  document.getElementById("lang_select").innerHTML = lang_map[138];
+                  document.getElementsByName('lang_select_dropdown')[0].options[0].innerHTML = lang_map[139];
+                  document.getElementsByName('lang_select_dropdown')[0].options[1].innerHTML = lang_map[140];
+                  document.getElementsByName('lang_select_dropdown')[0].options[2].innerHTML = lang_map[141];
+                  if(currentlang != null)
+                    document.getElementById('lang_select_List').value = currentlang;
                 </script>  
                 <!-- </table> -->
               </div>
@@ -2797,11 +2848,11 @@ function myLoadFunction() {
           </tr>                    
         </table>
         <script>
-          document.getElementById("btn_trace").innerHTML = lang.trace_button1;  
-          document.getElementById("parameters-label-t").innerHTML = lang.parameter_label;
-          document.getElementById("level-label-t").innerHTML = lang.level_label;
-          document.getElementById("distance-label-t").innerHTML = lang.distance_label;
-          document.getElementById("status-label-t").innerHTML = lang.status_label;
+          document.getElementById("btn_trace").innerHTML = lang_map[8];  
+          document.getElementById("parameters-label-t").innerHTML = lang_map[12];
+          document.getElementById("level-label-t").innerHTML = lang_map[13];
+          document.getElementById("distance-label-t").innerHTML = lang_map[14];
+          document.getElementById("status-label-t").innerHTML = lang_map[15];
         </script>
       </div>
       </article>
@@ -2962,65 +3013,65 @@ function myLoadFunction() {
               <td><button type="button" id="btnp21" class="button" onclick="button_press = 26; param_check();">UPDATE</button></td>
             </tr>
             <script>
-              document.getElementById("btndeviceName").innerHTML = lang.update_button;
-              document.getElementById("btnpWord").innerHTML = lang.update_button;
-              document.getElementById("btnp241").innerHTML = lang.update_button;
-              document.getElementById("btnp100").innerHTML = lang.update_button;
-              document.getElementById("btnp104").innerHTML = lang.update_button;
-              document.getElementById("btnp105").innerHTML = lang.update_button;
-              document.getElementById("btnp106").innerHTML = lang.update_button;
-              document.getElementById("btnp808").innerHTML = lang.update_button;
-              document.getElementById("btnp605").innerHTML = lang.update_button;
-              document.getElementById("btnp21").innerHTML = lang.update_button;
-              document.getElementById("bluetooth-parameters-label").innerHTML = lang.bluetooth_parameters_label;
-              document.getElementById("bt-range-label1").innerHTML = lang.range_label;
-              document.getElementById("deviceName").innerHTML = lang.device_name_label;
-              document.getElementById("pWord").innerHTML = lang.pin_number_label;
-              document.getElementById("radar-parameters-label").innerHTML = lang.radar_parameters_label;
-              document.getElementById("p241").innerHTML = lang.indicator_mode_label;
-              document.getElementById("p100").innerHTML = lang.measurement_mode_label;
-              document.getElementById("p104").innerHTML = lang.measurement_units_label;
-              document.getElementById("p105").innerHTML = lang.empty_distance_label;
-              document.getElementById("p106").innerHTML = lang.span_label;
-              document.getElementById("p808").innerHTML = lang.fail_mode_label;
-              document.getElementById("p605").innerHTML = lang.volume_units_label;
-              document.getElementById("p21").innerHTML = lang.p21_label;
-              document.getElementsByName('p241dropdown')[0].options[0].innerHTML = lang.p241_dropdown_0;
-              document.getElementsByName('p241dropdown')[0].options[1].innerHTML = lang.p241_dropdown_1;
-              document.getElementsByName('p241dropdown')[0].options[2].innerHTML = lang.p241_dropdown_2;
-              document.getElementsByName('p241dropdown')[0].options[3].innerHTML = lang.p241_dropdown_3;
+              document.getElementById("btndeviceName").innerHTML = lang_map[10];
+              document.getElementById("btnpWord").innerHTML = lang_map[10];
+              document.getElementById("btnp241").innerHTML = lang_map[10];
+              document.getElementById("btnp100").innerHTML = lang_map[10];
+              document.getElementById("btnp104").innerHTML = lang_map[10];
+              document.getElementById("btnp105").innerHTML = lang_map[10];
+              document.getElementById("btnp106").innerHTML = lang_map[10];
+              document.getElementById("btnp808").innerHTML = lang_map[10];
+              document.getElementById("btnp605").innerHTML = lang_map[10];
+              document.getElementById("btnp21").innerHTML = lang_map[10];
+              document.getElementById("bluetooth-parameters-label").innerHTML = lang_map[17];
+              document.getElementById("bt-range-label1").innerHTML = lang_map[18];
+              document.getElementById("deviceName").innerHTML = lang_map[19];
+              document.getElementById("pWord").innerHTML = lang_map[20];
+              document.getElementById("radar-parameters-label").innerHTML = lang_map[21];
+              document.getElementById("p241").innerHTML = lang_map[22];
+              document.getElementById("p100").innerHTML = lang_map[23];
+              document.getElementById("p104").innerHTML = lang_map[24];
+              document.getElementById("p105").innerHTML = lang_map[25];
+              document.getElementById("p106").innerHTML = lang_map[26];
+              document.getElementById("p808").innerHTML = lang_map[27];
+              document.getElementById("p605").innerHTML = lang_map[28];
+              document.getElementById("p21").innerHTML = lang_map[29];
+              document.getElementsByName('p241dropdown')[0].options[0].innerHTML = lang_map[30];
+              document.getElementsByName('p241dropdown')[0].options[1].innerHTML = lang_map[31];
+              document.getElementsByName('p241dropdown')[0].options[2].innerHTML = lang_map[32];
+              document.getElementsByName('p241dropdown')[0].options[3].innerHTML = lang_map[33];
               // document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_4;
-              document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang.p241_dropdown_5;
-              document.getElementsByName('p241dropdown')[0].options[5].innerHTML = lang.p241_dropdown_6;
+              document.getElementsByName('p241dropdown')[0].options[4].innerHTML = lang_map[34];
+              document.getElementsByName('p241dropdown')[0].options[5].innerHTML = lang_map[35];
               // document.getElementsByName('p241dropdown')[0].options[7].innerHTML = lang.p241_dropdown_7;
-              document.getElementsByName('p241dropdown')[0].options[6].innerHTML = lang.p241_dropdown_8;
-              document.getElementsByName('p100dropdown')[0].options[0].innerHTML = lang.p100_dropdown_0;
-              document.getElementsByName('p100dropdown')[0].options[1].innerHTML = lang.p100_dropdown_1;
-              document.getElementsByName('p100dropdown')[0].options[2].innerHTML = lang.p100_dropdown_2;
-              document.getElementsByName('p100dropdown')[0].options[3].innerHTML = lang.p100_dropdown_3;
-              document.getElementsByName('p100dropdown')[0].options[4].innerHTML = lang.p100_dropdown_4;    
-              document.getElementsByName('p104dropdown')[0].options[0].innerHTML = lang.p104_dropdown_0;
-              document.getElementsByName('p104dropdown')[0].options[1].innerHTML = lang.p104_dropdown_1;
-              document.getElementsByName('p104dropdown')[0].options[2].innerHTML = lang.p104_dropdown_2;
-              document.getElementsByName('p104dropdown')[0].options[3].innerHTML = lang.p104_dropdown_3;
-              document.getElementsByName('p104dropdown')[0].options[4].innerHTML = lang.p104_dropdown_4;
-              document.getElementsByName('p104dropdown')[0].options[5].innerHTML = lang.p104_dropdown_5;
-              document.getElementsByName('p808dropdown')[0].options[0].innerHTML = lang.p808_dropdown_0;
-              document.getElementsByName('p808dropdown')[0].options[1].innerHTML = lang.p808_dropdown_1;
-              document.getElementsByName('p808dropdown')[0].options[2].innerHTML = lang.p808_dropdown_2;
-              document.getElementsByName('p808dropdown')[0].options[3].innerHTML = lang.p808_dropdown_3;
-              document.getElementsByName('p808dropdown')[0].options[4].innerHTML = lang.p808_dropdown_4;
-              document.getElementsByName('p808dropdown')[0].options[5].innerHTML = lang.p808_dropdown_5;
-              document.getElementsByName('p605dropdown')[0].options[0].innerHTML = lang.p605_dropdown_0;
-              document.getElementsByName('p605dropdown')[0].options[1].innerHTML = lang.p605_dropdown_1;
-              document.getElementsByName('p605dropdown')[0].options[2].innerHTML = lang.p605_dropdown_2;
-              document.getElementsByName('p605dropdown')[0].options[3].innerHTML = lang.p605_dropdown_3;
-              document.getElementsByName('p605dropdown')[0].options[4].innerHTML = lang.p605_dropdown_4;
-              document.getElementsByName('p605dropdown')[0].options[5].innerHTML = lang.p605_dropdown_5;
-              document.getElementsByName('p605dropdown')[0].options[6].innerHTML = lang.p605_dropdown_6;
-              document.getElementsByName('p605dropdown')[0].options[7].innerHTML = lang.p605_dropdown_7;
-              document.getElementsByName('p605dropdown')[0].options[8].innerHTML = lang.p605_dropdown_8;
-              document.getElementsByName('p605dropdown')[0].options[9].innerHTML = lang.p605_dropdown_9;
+              document.getElementsByName('p241dropdown')[0].options[6].innerHTML = lang_map[36];
+              document.getElementsByName('p100dropdown')[0].options[0].innerHTML = lang_map[37];
+              document.getElementsByName('p100dropdown')[0].options[1].innerHTML = lang_map[38];
+              document.getElementsByName('p100dropdown')[0].options[2].innerHTML = lang_map[39];
+              document.getElementsByName('p100dropdown')[0].options[3].innerHTML = lang_map[40];
+              document.getElementsByName('p100dropdown')[0].options[4].innerHTML = lang_map[41];    
+              document.getElementsByName('p104dropdown')[0].options[0].innerHTML = lang_map[42];
+              document.getElementsByName('p104dropdown')[0].options[1].innerHTML = lang_map[43];
+              document.getElementsByName('p104dropdown')[0].options[2].innerHTML = lang_map[44];
+              document.getElementsByName('p104dropdown')[0].options[3].innerHTML = lang_map[45];
+              document.getElementsByName('p104dropdown')[0].options[4].innerHTML = lang_map[46];
+              document.getElementsByName('p104dropdown')[0].options[5].innerHTML = lang_map[47];
+              document.getElementsByName('p808dropdown')[0].options[0].innerHTML = lang_map[48];
+              document.getElementsByName('p808dropdown')[0].options[1].innerHTML = lang_map[49];
+              document.getElementsByName('p808dropdown')[0].options[2].innerHTML = lang_map[50];
+              document.getElementsByName('p808dropdown')[0].options[3].innerHTML = lang_map[51];
+              document.getElementsByName('p808dropdown')[0].options[4].innerHTML = lang_map[52];
+              document.getElementsByName('p808dropdown')[0].options[5].innerHTML = lang_map[53];
+              document.getElementsByName('p605dropdown')[0].options[0].innerHTML = lang_map[54];
+              document.getElementsByName('p605dropdown')[0].options[1].innerHTML = lang_map[55];
+              document.getElementsByName('p605dropdown')[0].options[2].innerHTML = lang_map[56];
+              document.getElementsByName('p605dropdown')[0].options[3].innerHTML = lang_map[57];
+              document.getElementsByName('p605dropdown')[0].options[4].innerHTML = lang_map[58];
+              document.getElementsByName('p605dropdown')[0].options[5].innerHTML = lang_map[59];
+              document.getElementsByName('p605dropdown')[0].options[6].innerHTML = lang_map[60];
+              document.getElementsByName('p605dropdown')[0].options[7].innerHTML = lang_map[61];
+              document.getElementsByName('p605dropdown')[0].options[8].innerHTML = lang_map[62];
+              document.getElementsByName('p605dropdown')[0].options[9].innerHTML = lang_map[63];
             </script>
           </table>
         </div>
@@ -3034,10 +3085,10 @@ function myLoadFunction() {
       <table>
         <tr>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 117%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.0.13<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.1.0<br></p>
           </td>
         </tr>
       </table>
