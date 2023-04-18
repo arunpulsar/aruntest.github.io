@@ -73,7 +73,7 @@ var lang_array = [
     },
     {	//Index 18
         English: "RANGE &nbsp [",
-        German: "RANGE &nbsp [",
+        German: "REICHWEITE &nbsp &nbsp &nbsp &nbsp &nbsp[",
     },
     {	//Index 19
         English: "DEVICE NAME",
@@ -133,7 +133,7 @@ var lang_array = [
     },
     {	//Index 33
         English: "2 = Inst. Solid",
-        German: "2 = Installation SCHÜTTGUT",
+        German: "2 = Installation FESTSTOFF",
     },
     // {    // This should only be introduced to the end. Else all the array numbering needs to be changed
     //     English: "3 = Inst. Liquid",
@@ -145,11 +145,11 @@ var lang_array = [
     },
     {	//Index 35
         English: "5 = Meas. Solid",
-        German: "5 = Messung SCHÜTTGUT",
+        German: "5 = Messung FESTSTOFF",
     },
     // {    // This should only be introduced to the end. Else all the array numbering needs to be changed
     //     English: "6 = Meas. Solid",
-    //     German: "6 = Messung SCHÜTTGUT",
+    //     German: "6 = Messung FESTSTOFF",
     // },
     {	//Index 36
         English: "7 = Health",
@@ -581,10 +581,10 @@ var lang_array = [
     },
     {   //Index 143
         English: "Setting new Bluetooth range. Please wait...",
-        German: "Neues Bluetooth-Reichweite festlegen. Bitte Warten...",
+        German: "Neue Bluetooth-Reichweite festlegen. Bitte Warten...",
     },
     {   //Index 144
         English: "Setting new Bluetooth device name. Please wait...",
-        German: "Neues Bluetooth-Gerätenamens festlegen. Bitte Warten...",
+        German: "Neuen Bluetooth-Gerätenamens festlegen. Bitte Warten...",
     },
 ];
