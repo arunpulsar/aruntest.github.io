@@ -585,6 +585,6 @@ var lang_array = [
     },
     {   //Index 144
         English: "Setting new Bluetooth device name. Please wait...",
-        German: "Neuen Bluetooth-Gerätenamens festlegen. Bitte Warten...",
+        German: "Neuen Bluetooth-Gerätenamen festlegen. Bitte Warten...",
     },
 ];
