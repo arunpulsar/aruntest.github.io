@@ -25,6 +25,7 @@
   <script src="index.js" defer></script>
   <script src="js/jquery-impromptu.js"></script>
   <script src="js/lang.js"></script>
+  <script src="js/param.js"></script>
 
   <style>
     .my_text
@@ -101,7 +102,10 @@ function sleep(ms) {
     var button_press = 0;
     var isTraceOn = 0;
     var level_var, distance_var, volume_var, compensated_var, compensated_var_m, mA_output_var, temperature_var, date_var, time_var, gate_start, gate_stop, echo_var, noise_var, status_var, near_blanking_var, far_blanking_var, empty_distance, mode_var, bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7;
-    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query, p104_param_update;
+    var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query, p104_param_update, span_val;
+    var start_point, width_val;
+    let a = [];
+    var s, offset;
     level_var = 0.000;//4.346;
     distance_var = 0.000;//1.654;
     volume_var = 0.000;//2.370;
@@ -131,12 +135,16 @@ function sleep(ms) {
     param_init_query = 0;
     power_init_query = 0;
     p104_param_update = 0;
+    span_val = 5.7;
 
     // set interval
     var echo_tid;
     var datem_tid;
-    var p104_tid;
-    var p605_tid;
+    //var p104_tid;
+    //var p605_tid;
+    var param_set1_tid;
+    var param_set2_tid;
+    var param_set3_tid;    
     var param_tid;
     var param_query=0;
     var isDisconnecting=0;
@@ -147,6 +155,8 @@ function sleep(ms) {
 
     var currentlang = localStorage.getItem('lang_select_List');
     var lang_map = lang_array.map(a => a.English);
+    var param_num = param_info.map(a => a.pnum);
+    var param_val = param_info.map(a => a.pvalue);
 
     // Resetting all the variables
     function reset_params() {
@@ -187,6 +197,7 @@ function sleep(ms) {
       param_init_query = 0;
       power_init_query = 0;
       p104_param_update = 0;
+      span_val = 5.7;
     }
 
     // Function to select the volume units to be displayed depending on p605 value
@@ -312,12 +323,14 @@ function sleep(ms) {
         document.getElementById("trace-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
         document.getElementById("home-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
 			  isIgnore_2=2; // NEED TO CHECK
-        clearTimeout(p605_tid);
+        //clearTimeout(p605_tid);
         clearTimeout(echo_tid);
         clearTimeout(datem_tid);
         clearTimeout(param_tid);
-        p104_tid = setInterval(p104_start, 1000);//5000);
-        button_press = 14;
+        //p104_tid = setInterval(p104_start, 1000);//5000);
+        //param_set1_tid = setInterval(param_set1_start, 5000);
+        param_set1_start();
+        //button_press = 14;
       }
     }
 
@@ -337,11 +350,11 @@ function sleep(ms) {
         tids_trace_reset();
         // settings_clear();
         settings_msg_clear();
-        if(param_init_query == 0) {
+        /*if(param_init_query == 0) {
           param_start_val = 1;
           param_query = 0;
           param_tid = setInterval(param_start, 1000);
-        }
+        }*/
       }
     }
 
@@ -412,8 +425,11 @@ function sleep(ms) {
     // no need to recall the function (it's an interval, it'll loop forever)
     if(login_stage == 4) { // TRACE ON state
         clearTimeout(echo_tid);
-        clearTimeout(p104_tid);
-        clearTimeout(p605_tid);
+        //clearTimeout(p104_tid);
+        //clearTimeout(p605_tid);
+        clearTimeout(param_set1_tid);
+        clearTimeout(param_set2_tid);
+        clearTimeout(param_set3_tid);
         clearTimeout(param_tid);  
         sendAT('GET ECHO');
         document.getElementById("trace-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
@@ -432,8 +448,11 @@ function sleep(ms) {
     function datem_start() {
         if(login_stage == 4) { // TRACE ON state
             clearTimeout(datem_tid);
-            clearTimeout(p104_tid);
-            clearTimeout(p605_tid);
+            //clearTimeout(p104_tid);
+            //clearTimeout(p605_tid);
+            clearTimeout(param_set1_tid);
+            clearTimeout(param_set2_tid);
+            clearTimeout(param_set3_tid);
             clearTimeout(param_tid);
             sendAT('GET DATEM');
             document.getElementById("trace-message").innerHTML = lang_map[114];//"Acquiring DATEM data. Please wait...";
@@ -489,6 +508,75 @@ function sleep(ms) {
         }      
     }
 
+    function param_set1_start() {
+      if(login_stage == 4) {
+            //clearTimeout(p605_tid);
+            clearTimeout(param_set1_tid);
+            clearTimeout(param_set2_tid);
+            clearTimeout(param_set3_tid);
+            clearTimeout(echo_tid);
+            clearTimeout(datem_tid);
+            clearTimeout(param_tid);
+            sendAT('SENDPART1');
+            document.getElementById("trace-message").innerHTML = lang_map[146];//"Querying P104. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[146];//"Querying P104. Please wait...";
+            button_press = 16;
+            // p104_tid = setInterval(p104_start, 5000);
+            param_set1_tid = setInterval(param_set1_start, 5000);
+
+        } else {
+            // clearTimeout(p104_tid);
+            // clearTimeout(p605_tid);
+            // clearTimeout(echo_tid);
+            // clearTimeout(datem_tid);
+            tids_trace_reset();
+        }          
+    }
+
+    function param_set2_start() {
+      if(login_stage == 4) {
+            //clearTimeout(p605_tid);
+            clearTimeout(param_set1_tid);
+            clearTimeout(param_set3_tid);
+            clearTimeout(echo_tid);
+            clearTimeout(datem_tid);
+            clearTimeout(param_tid);
+            sendAT('SENDPART2');
+            document.getElementById("trace-message").innerHTML = lang_map[147];//"Querying P104. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[147];//"Querying P104. Please wait...";
+            button_press = 17;
+            // p104_tid = setInterval(p104_start, 5000);
+        } else {
+            // clearTimeout(p104_tid);
+            // clearTimeout(p605_tid);
+            // clearTimeout(echo_tid);
+            // clearTimeout(datem_tid);
+            tids_trace_reset();
+        }          
+    }
+
+    function param_set3_start() {
+      if(login_stage == 4) {
+            //clearTimeout(p605_tid);
+            clearTimeout(param_set1_tid);
+            clearTimeout(param_set2_tid);
+            clearTimeout(echo_tid);
+            clearTimeout(datem_tid);
+            clearTimeout(param_tid);
+            sendAT('SENDPART3');
+            document.getElementById("trace-message").innerHTML = lang_map[148];//"Querying P104. Please wait...";
+            document.getElementById("home-message").innerHTML = lang_map[148];//"Querying P104. Please wait...";
+            button_press = 18;
+            // p104_tid = setInterval(p104_start, 5000);
+        } else {
+            // clearTimeout(p104_tid);
+            // clearTimeout(p605_tid);
+            // clearTimeout(echo_tid);
+            // clearTimeout(datem_tid);
+            tids_trace_reset();
+        }          
+    }
+
     function trace_button_check() {
       //log("trace_button_check :"+login_stage);
         if(login_stage == 3 /*|| login_stage == 1*/ || login_stage == 2) {
@@ -507,12 +595,16 @@ function sleep(ms) {
               document.getElementById("trace-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
               document.getElementById("home-message").innerHTML = lang_map[104];//"Acquiring trace data. Please wait...";
 			        isIgnore_2=2; // NEED TO CHECK
-              clearTimeout(p605_tid);
+              //clearTimeout(p605_tid);
+              //clearTimeout(param_set1_tid);
+              clearTimeout(param_set2_tid);
+              clearTimeout(param_set3_tid);
               clearTimeout(echo_tid);
               clearTimeout(datem_tid);
               clearTimeout(param_tid);
-              p104_tid = setInterval(p104_start, 1000);//5000);
-              button_press = 14;
+              //p104_tid = setInterval(p104_start, 1000);//5000);
+              param_set1_tid = setInterval(param_set1_start, 500);
+              //button_press = 14;
           }
         } else {
           log(lang_map[64]);//log('Device not in Normal mode!');//log('Device not in passthrough mode!');          
@@ -533,8 +625,11 @@ function sleep(ms) {
         }
         else if (login_stage == 2) { // currently in AT mode
           login_stage = 3;
-          clearTimeout(p104_tid);
-          clearTimeout(p605_tid);
+          //clearTimeout(p104_tid);
+          //clearTimeout(p605_tid);
+          clearTimeout(param_set1_tid);
+          clearTimeout(param_set2_tid);
+          clearTimeout(param_set3_tid);
           clearTimeout(echo_tid);
           clearTimeout(datem_tid);
           clearTimeout(param_tid);
@@ -552,13 +647,19 @@ function sleep(ms) {
     function tids_trace_reset() {
       login_stage = 3; // back to the PT mode
       document.getElementById('btn_trace').innerHTML = lang_map[9];//'TRACE ON';
-      clearTimeout(p104_tid);
-      clearTimeout(p605_tid);
+      //clearTimeout(p104_tid);
+      //clearTimeout(p605_tid);
+      clearTimeout(param_set1_tid);
+      clearTimeout(param_set2_tid);
+      clearTimeout(param_set3_tid);
       clearTimeout(echo_tid);
       clearTimeout(datem_tid);
       clearTimeout(param_tid);
-      p104_tid = false;
-      p605_tid = false;
+      //p104_tid = false;
+      //p605_tid = false;
+      param_set1_tid = false;
+      param_set2_tid = false;
+      param_set3_tid = false;
       echo_tid = false;
       datem_tid = false;
       param_tid = false;
@@ -586,8 +687,11 @@ function sleep(ms) {
           // start the static timers
           document.getElementById('btn_trace').innerHTML = lang_map[8];//'TRACE OFF';
           login_stage = 3;
-          clearTimeout(p104_tid);
-          clearTimeout(p605_tid);
+          //clearTimeout(p104_tid);
+          //clearTimeout(p605_tid);
+          clearTimeout(param_set1_tid);
+          clearTimeout(param_set2_tid);
+          clearTimeout(param_set3_tid);
           clearTimeout(echo_tid);
           clearTimeout(datem_tid);
           clearTimeout(param_tid);
@@ -632,6 +736,61 @@ function sleep(ms) {
       }
     }
 
+    function getVal(i) {
+      //param_val[i] = parseInt(hexToFloat('0x' + ('00' + s.getUint8(4*i).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 1).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 2).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 3).toString(16)).slice(-2)));
+      //return (param_val[i]);
+      return(hexToFloat('0x' + ('00' + s.getUint8(4*i).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 1).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 2).toString(16)).slice(-2) + ('00' + s.getUint8(4*i + 3).toString(16)).slice(-2)));
+    }
+
+    function param_verify(i) {
+      switch (param_num[offset*60 + i]) {
+        case 241:
+          document.getElementById('p241List').value = parseInt(getVal(i)) + 1;
+          //console.log(document.getElementById('p241List').value);
+          if((document.getElementById('p241List').value >=2) && (document.getElementById('p241List').value <=4))
+            alert(lang_map[85]);
+          break;
+        case 100:
+          document.getElementById('p100List').value = parseInt(getVal(i));
+          break;
+        case 101:
+          break;
+        case 104:
+          document.getElementById('p104List').value = parseInt(getVal(i));
+          p104_units_val = parseInt(document.getElementById('p104List').value);
+          p104_measurement_units();  // Update the measurement units to be displayed
+          break;
+        case 105:
+          document.getElementById('p105-box').value = getVal(i).toFixed(3);
+          break;
+        case 106:
+          document.getElementById('p106-box').value = getVal(i).toFixed(3);
+          span_val = document.getElementById('p106-box').value;
+          break;
+        case 107:
+          near_blanking_var = getVal(i).toFixed(3);
+          break;
+        case 108:
+          far_blanking_var = getVal(i).toFixed(3);
+          break;          
+        case 808:
+          document.getElementById('p808List').value = parseInt(getVal(i));
+          break;
+        case 605:
+          document.getElementById('p605List').value = parseInt(getVal(i)) + 1;
+          p605_units_val = parseInt(document.getElementById('p605List').value) - 1;
+          p605_volume_units();  // Update the volume units to be displayed
+          break;
+        case 21:
+          document.getElementById('p21-box').value = getVal(i).toFixed(3);
+          break;
+        case 586:
+          temperature_var = getVal(i);
+          break;
+        default:
+          break;        
+      }
+    }
 
     const utf8encoder = new TextEncoder();
     const windows1251 = new TextEncoder();
@@ -665,9 +824,10 @@ function sleep(ms) {
     }
 
     // Function to convert unsigned int 8 bit format to hex and relevant functions within it
-    function Uint8tohex(s)
+    function Uint8tohex(incoming_data)
     {
-      let a = [];     
+      a = [];
+      s = incoming_data;     
       var check;
       var floatval;
       const doc_value = document.getElementById('cmd').value;
@@ -728,9 +888,43 @@ function sleep(ms) {
         {
           xdata[i] = Math.round((xdata[i - 1] + (compensated_var/200))*1000)/1000;
         }
+        // Zooming out does not work if labels are numbers
+        for (let i = 0; i <= 200; i++)
+        {
+          xdata[i] = xdata[i].toString();
+        }
         myChart.data.labels = xdata;
         myChart.config.options.scales.x.title.text = p104_units;
         myChart.update();
+      }
+      else if (((doc_value == "SENDPART1") && (button_press == 8)) || (button_press == 16))
+      {
+        offset = 0;
+        for (let i = 0; i < 60; i++) {
+            param_verify(i);          
+        }
+        //console.log("Got Part1");
+        param_set2_start();
+        param_set2_tid = setInterval(param_set2_start, 5000);
+      }
+      else if (((doc_value == "SENDPART2") && (button_press == 8)) || (button_press == 17))
+      {
+        offset = 1;
+        for (let i = 0; i < 60; i++) {
+            param_verify(i);          
+        }
+        //console.log("Got Part2");
+        param_set3_start();
+        param_set3_tid = setInterval(param_set3_start, 5000);
+      }
+      else if (((doc_value == "SENDPART3") && (button_press == 8)) || (button_press == 18))
+      {
+        offset = 2;
+        for (let i = 0; i < (param_info.length - offset*60); i++) {
+            param_verify(i);          
+        }
+        //console.log("Got Part3");
+        echo_start();
       }
       return a;
     }
@@ -863,9 +1057,13 @@ function sleep(ms) {
         p104_measurement_units();  // Update the measurement units to be displayed
         if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
+        /*
         if(isTraceOn == 1) {
           //sendAT('/P605');
-          clearTimeout(p104_tid);
+          //clearTimeout(p104_tid);
+          clearTimeout(param_set1_tid);
+          clearTimeout(param_set2_tid);
+          clearTimeout(param_set3_tid);
           clearTimeout(echo_tid);
           clearTimeout(datem_tid);
           clearTimeout(param_tid);
@@ -875,6 +1073,7 @@ function sleep(ms) {
           button_press = 14;
         } else if (p104_param_update == 1)
           p104_update();
+          */
         param_query = 3;
         document.getElementById("btnp104").style.background = '#33B34A';   //PULSAR GREEN
       }
@@ -887,6 +1086,7 @@ function sleep(ms) {
       }
       else if(string_val.includes("/P106:")) {
         document.getElementById('p106-box').value = string_val.slice(string_val.lastIndexOf(':') + 1);//string_val.substring(string_val.indexOf(':') + 1);
+        span_val = document.getElementById('p106-box').value;
         param_query = 5;
         if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
@@ -912,20 +1112,25 @@ function sleep(ms) {
         p605_volume_units();  // Update the volume units to be displayed
         if((param_start_val == 0) || (param_tid == false))
           settings_msg_clear();
+        /*
         if(isTraceOn == 1) {
 
           // sendAT('GET ECHO');
           // button_press = 10;
           // datem_tid = setInterval(datem_start, 5000);
-          clearTimeout(p605_tid);
+          //clearTimeout(p605_tid);
           clearTimeout(datem_tid);
-          clearTimeout(p104_tid);
+          //clearTimeout(p104_tid);
           clearTimeout(param_tid);
+          clearTimeout(param_set1_tid);
+          clearTimeout(param_set2_tid);
+          clearTimeout(param_set3_tid);
           document.getElementById("trace-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
           document.getElementById("home-message").innerHTML = lang_map[113];//"Acquiring ECHO data. Please wait...";
           echo_tid = setInterval(echo_start, 1000);//5000);
 
         }
+        */
         param_query = 7;
         document.getElementById("btnp605").style.background = '#33B34A';   //PULSAR GREEN
       }
@@ -973,7 +1178,7 @@ async function incomingData(event){
      
 
       //alert(string_check + "2");
-      if ((button_press == 10) || (button_press == 11) || ((button_press == 8) && ((doc_value == "GET ECHO") || (doc_value == "GET DATEM"))))
+      if ((button_press == 10) || (button_press == 11) || (button_press == 16) || (button_press == 17) || (button_press == 18) || ((button_press == 8) && ((doc_value == "GET ECHO") || (doc_value == "GET DATEM") || (doc_value == "SENDPART1") || (doc_value == "SENDPART2") || (doc_value == "SENDPART3"))))
       {
         var hex = Uint8tohex(readInValue);
         // if((button_press == 10) || ((button_press == 8) && (doc_value == "GET ECHO")))
@@ -1284,7 +1489,7 @@ async function sendAT(cmd) {
         let cmd1 = pwd.replace(/[0-9]/g, "*");
         log(' → /ACCESS:' + cmd1);
       }
-      else if ((cmd != "GET ECHO") && (cmd != "GET DATEM") && !((isTraceOn == 1) && ((cmd == "/P104") || (cmd == "/P605")))) {
+      else if ((cmd != "GET ECHO") && (cmd != "GET DATEM") && (cmd != "SENDPART1") && (cmd != "SENDPART2") && (cmd != "SENDPART3") && !((isTraceOn == 1) && ((cmd == "/P104") || (cmd == "/P605")))) {
         if((cmd_sent == "AT+PWRLVL") && (power_init_query == 0))
           log(lang_map[82]);//log(' → Checking bluetooth power level');
         else
@@ -2584,6 +2789,8 @@ function myLoadFunction() {
               </td>                 
                 <!-- Offline mode -->
                 <script src="./js/chart.js"></script>
+                <script src="js/hammer.min.js"></script>
+                <script src="js/chartjs-plugin-zoom.min.js"></script>
                 <script>
                 // X points/labels
                 var xdata = [];
@@ -2591,6 +2798,11 @@ function myLoadFunction() {
                 xdata[0] = 0.00;
                 for (let i = 1; i <= 200; i++) {
                     xdata[i] = Math.round((xdata[i - 1] + 0.036)*1000)/1000;
+                }
+                // Zooming out does not work if labels are numbers
+                for (let i = 0; i <= 200; i++)
+                {
+                  xdata[i] = xdata[i].toString();
                 }
 
                 // Echo variables
@@ -2607,7 +2819,7 @@ function myLoadFunction() {
                     labels: xdata,            
                     datasets: [{
                         type: 'line',
-                        label: 'Datem',   // Datem array
+                        label: 'DATEM',   // Datem array
                         data: datem,
                         radius: 1,
                         pointRadius: 1,
@@ -2638,16 +2850,44 @@ function myLoadFunction() {
                         ctx.save();
                         //alert("Near = " + near_blanking_var + ", Far = " + far_blanking_dist + ", Empty = " + empty_distance + ", Compensated = " + compensated_var + ", Mode = " + mode_var);
                         ctx.fillStyle = 'yellow';
-                        ctx.fillRect(x.getPixelForValue(0), top, near_blanking_var*width/compensated_var, height); // Near blanking area (x.getPixelForValue(0), top, 0.3*width/7.2, height)
+                        //ctx.fillRect(x.getPixelForValue(0), top, near_blanking_var*width/compensated_var, height); // Near blanking area (x.getPixelForValue(0), top, 0.3*width/7.2, height)
+                        start_point = Math.max(x.getPixelForValue(0), left);
+                        width_val = Math.max(x.getPixelForValue(near_blanking_var*width/compensated_var), left) - start_point;
+                        ctx.fillRect(start_point, top, width_val, height);    // Near blanking area
+
+                        //console.log(start_point + ", " + near_blanking_var*width/compensated_var + ", " + width_val);
+						
+                        ctx.fillStyle = '#EFFFE8';
+                        //ctx.fillRect(x.getPixelForValue((200.0/1.2)*(empty_distance - span_val)/mode_var), top, span_val*width/compensated_var, height); // Span
+                        start_point = Math.max(x.getPixelForValue((200.0/((100.0 + far_blanking_var)/100.0))*(empty_distance - span_val)/mode_var), left);
+                        width_val = Math.max(x.getPixelForValue((200.0/((100.0 + far_blanking_var)/100.0))*empty_distance/mode_var), left) - start_point;
+                        //width_val = x.getPixelForValue((200.0/1.2)*(span_val)/mode_var);
+                        ctx.fillRect(start_point, top, width_val, height);    // Span
+						
                         ctx.fillStyle = 'yellow';
-                        ctx.fillRect(x.getPixelForValue((200.0/1.2)*empty_distance/mode_var), top, width*(far_blanking_dist - empty_distance)/compensated_var, height); // Far blanking area
-                        ctx.strokeStyle = 'red';
-                        ctx.strokeRect(x.getPixelForValue(distance_var*200/compensated_var), top, 0, height);  // Distance//(x0, y0, x1, y1); (x.getPixelForValue(distance_var*200/7.2), top, 0, height)
-                        ctx.strokeStyle = 'black';
-                        ctx.strokeRect(x.getPixelForValue(gate_start/5), top, 0, height);  // Gate start (x.getPixelForValue((distance_var - 0.20)*200/7.2), top, 0, height)
-                        ctx.strokeStyle = 'black';
-                        ctx.strokeRect(x.getPixelForValue(gate_stop/5), top, 0, height);  // Gate stop (x.getPixelForValue((distance_var + 0.20)*200/7.2), top, 0, height)
-                        ctx.fillStyle = 'black';
+                        //ctx.fillRect(x.getPixelForValue((200.0/1.2)*empty_distance/mode_var), top, width*(far_blanking_dist - empty_distance)/compensated_var, height); // Far blanking area
+                        start_point = Math.max(x.getPixelForValue((200.0/((100.0 + far_blanking_var)/100.0))*empty_distance/mode_var), left);
+                        width_val = Math.max(x.getPixelForValue((200.0/((100.0 + far_blanking_var)/100.0))*far_blanking_dist/mode_var), left) - start_point;
+                        ctx.fillRect(start_point, top, width_val, height);    // Far blanking area
+						
+                        //console.log(left + ", " + x.getPixelForValue(0) + ", " + near_blanking_var + ", " + far_blanking_var + ", " + far_blanking_dist + ", " + empty_distance + ", " + span_val + ", " + mode_var + ", " + compensated_var + ", " + compensated_var_m);
+                        
+                        if(Math.max(x.getPixelForValue(distance_var*200/compensated_var), left) <= x.getPixelForValue(distance_var*200/compensated_var))
+                        {
+                          ctx.strokeStyle = 'red';
+                          ctx.strokeRect(x.getPixelForValue(distance_var*200/compensated_var), top, 0, height);  // Distance//(x0, y0, x1, y1); (x.getPixelForValue(distance_var*200/7.2), top, 0, height)
+                        }
+                        if(Math.max(x.getPixelForValue(gate_start/5), left) <= x.getPixelForValue(gate_start/5))
+                        {
+                          ctx.strokeStyle = 'black';
+                          ctx.strokeRect(x.getPixelForValue(gate_start/5), top, 0, height);  // Gate start (x.getPixelForValue((distance_var - 0.20)*200/7.2), top, 0, height)
+                        }
+                        if(Math.max(x.getPixelForValue(gate_stop/5), left) <= x.getPixelForValue(gate_stop/5))
+                        {
+                          ctx.strokeStyle = 'black';
+                          ctx.strokeRect(x.getPixelForValue(gate_stop/5), top, 0, height);  // Gate stop (x.getPixelForValue((distance_var + 0.20)*200/7.2), top, 0, height)
+                        }
+                        //ctx.fillStyle = 'black';
                         data_log_update();                  
                         // ctx.fillText("Length          = " + level_var.toFixed(3) + " m", x.getPixelForValue(140), top+10); // Dynamic variables
                         // ctx.fillText("Distance       = " + distance_var.toFixed(3) + " m", x.getPixelForValue(140), top+20);
@@ -2709,8 +2949,7 @@ function myLoadFunction() {
                 // config block
                 var config = {
                     type: 'line',
-                    data: data,
-                    plugins: [plugin, arbitraryLine], // Uses both plugins
+                    data: data,                    
                     options: {
                       plugins: {
                         legend: {
@@ -2720,7 +2959,35 @@ function myLoadFunction() {
                                     size: 24,
                                 }
                             }
-                        }
+                        },
+                        zoom: {
+                          zoom: {                           
+                            wheel: {
+                              enabled: true,
+                              mode: 'xy'
+                            },
+                            pinch: {
+                              enabled: true,
+                              mode: 'xy'
+                            },
+                            drag: {
+                              enabled: true,
+                              mode: 'y'
+                            },
+                            // mode: "x",
+                            speed: 0.10,
+                            threshold: 10,
+                            sensitivity: 3,                        
+                          },
+                          pan: {
+                            enabled: true,
+                            mode: 'xy'
+                          },
+                          limits: {
+                            y: {minRange: 200, min: 0, max: 1000/*, minRange: 100*/},
+                            x: {minRange: 20, min: 0, max: xdata.length/*, minRange: 1000*/}
+                          }
+                        },
                       },
                     maintainAspectRatio: false,                                      
                     scales: {                                 
@@ -2750,7 +3017,7 @@ function myLoadFunction() {
                                 font: {
                                   size: 24,
                                 }
-                            },                     
+                            },              
                         },                                       
                         y: {
                             title: {
@@ -2763,6 +3030,12 @@ function myLoadFunction() {
                             max: 1000,
                             min:0,
                             ticks: {
+                                callback: function(value) {
+                                  // if (Math.floor(value) === value) {
+                                  //   return value
+                                  // }
+                                  return Math.floor(value);
+                                },
                                 stepSize: 100,
                                 font: {
                                   size: 24,
@@ -2771,7 +3044,8 @@ function myLoadFunction() {
                             beginAtZero: true
                         },               
                     },                
-                    }                          
+                    },
+                    plugins: [plugin, arbitraryLine], // Uses both plugins                         
                 };
                 
                 // render / init block
@@ -3097,7 +3371,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.0.0<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.1.0<br></p>
           </td>
         </tr>
       </table>
