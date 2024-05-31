@@ -708,9 +708,13 @@ function sleep(ms) {
         {
           mode_var = 20.0;
         }
-        else
+        else if(compensated_var_m.toFixed(1) == 9.6)
         {
           mode_var = 8.0;
+        }
+        else
+        {
+          mode_var = 40.0;
         }
         far_blanking_dist = empty_distance * (100.0 + far_blanking_var)/100.0;
         near_blanking_var = convert_to_measurement_units(near_blanking_var);
@@ -3093,7 +3097,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.2.1<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.0.0<br></p>
           </td>
         </tr>
       </table>
