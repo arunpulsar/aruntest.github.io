@@ -1477,6 +1477,7 @@ async function sendAT(cmd) {
       if((login_stage >= 2) && (isDisconnecting == 0)) {
         tids_trace_reset();
         isIgnore=0;
+        var alphanumericPattern=/^[A-za-z0-9]+$/; // alphanumericPattern to poll the Input String
         switch(button_press) {
           case 28:
             if(document.getElementById("deviceName-box").value == "") {            
@@ -1488,6 +1489,10 @@ async function sendAT(cmd) {
                 alert(lang_map[88]);//alert('Device Name can only have a maximum of 4 alphanumeric characters!');
                 settings_msg_clear();
               }
+            else if(!alphanumericPattern.test(document.getElementById("deviceName-box").value)){
+              alert(lang_map[145]); // alert(Please enter A-Z,a-z,0-9! Device Name can not contain special characters!)
+              settings_msg_clear();
+            }
               else {
                 document.getElementById("settings-message").innerHTML = lang_map[144];//"Setting new Bluetooth device name. Please wait...";
                 document.getElementById("btndeviceName").style.background = '#FFCE34';   //PULSAR YELLOW
@@ -3088,7 +3093,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2023<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.2.0<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v1.2.1<br></p>
           </td>
         </tr>
       </table>
