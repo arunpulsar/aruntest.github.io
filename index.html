@@ -104,6 +104,7 @@ function sleep(ms) {
     var level_var, distance_var, volume_var, compensated_var, compensated_var_m, mA_output_var, temperature_var, date_var, time_var, gate_start, gate_stop, echo_var, noise_var, status_var, near_blanking_var, far_blanking_var, empty_distance, mode_var, bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7;
     var p104_units_val, p605_units_val, p104_units, p605_units, p104_rx_status, p605_rx_status, cmd_sent, param_init_query, power_init_query, p104_param_update, span_val;
     var start_point, width_val;
+    var CommandSent;
     let a = [];
     var s, offset;
     level_var = 0.000;//4.346;
@@ -830,14 +831,14 @@ function sleep(ms) {
       s = incoming_data;     
       var check;
       var floatval;
-      const doc_value = document.getElementById('cmd').value;
+      const doc_value = CommandSent;//document.getElementById('cmd').value;
       for (let i = 0; i < s.byteLength; i++) {
         check = s.getUint8(i);
-        if((i >= 46) && (i < 246) && (((doc_value == "GET ECHO") && (button_press == 8)) || (button_press == 10))) // Changed from (i >= 42) && (i < 242)
+        if((i >= 46) && (i < 246) && (doc_value == "GET ECHO"))//(((doc_value == "GET ECHO") && (button_press == 8)) || (button_press == 10))) // Changed from (i >= 42) && (i < 242)
         {
           echo[i-46] = check*1000/255;  // Changed from echo[i-42]
         }
-        else if((i >= 46) && (i < 246) && (((doc_value == "GET DATEM") && (button_press == 8)) || (button_press == 11)))  // Changed from (i >= 42) && (i < 242)
+        else if((i >= 46) && (i < 246) && (doc_value == "GET DATEM"))//(((doc_value == "GET DATEM") && (button_press == 8)) || (button_press == 11)))  // Changed from (i >= 42) && (i < 242)
         {
           datem[i-46] = check*1000/255; // Changed from datem[i-42]
         }
@@ -846,7 +847,7 @@ function sleep(ms) {
       }
  
       
-      if((((doc_value == "GET ECHO") || (doc_value == "GET DATEM") && (button_press == 8)) || (button_press == 10) || (button_press == 11)) && (s.byteLength == 246)) {
+      if((((doc_value == "GET ECHO") || (doc_value == "GET DATEM") /*&& (button_press == 8)*/) /*|| (button_press == 10) || (button_press == 11)*/) && (s.byteLength == 246)) {
         // Populate the dynamic variables
         level_var = hexToFloat('0x' + ('00' + s.getUint8(0).toString(16)).slice(-2) + ('00' + s.getUint8(1).toString(16)).slice(-2) + ('00' + s.getUint8(2).toString(16)).slice(-2) + ('00' + s.getUint8(3).toString(16)).slice(-2));
         distance_var = hexToFloat('0x' + ('00' + s.getUint8(4).toString(16)).slice(-2) + ('00' + s.getUint8(5).toString(16)).slice(-2) + ('00' + s.getUint8(6).toString(16)).slice(-2) + ('00' + s.getUint8(7).toString(16)).slice(-2));
@@ -897,7 +898,7 @@ function sleep(ms) {
         myChart.config.options.scales.x.title.text = p104_units;
         myChart.update();
       }
-      else if (((doc_value == "SENDPART1") && (button_press == 8)) || (button_press == 16))
+      else if (doc_value == "SENDPART1")//(((doc_value == "SENDPART1") && (button_press == 8)) || (button_press == 16))
       {
         offset = 0;
         for (let i = 0; i < 60; i++) {
@@ -907,7 +908,7 @@ function sleep(ms) {
         param_set2_start();
         param_set2_tid = setInterval(param_set2_start, 5000);
       }
-      else if (((doc_value == "SENDPART2") && (button_press == 8)) || (button_press == 17))
+      else if (doc_value == "SENDPART2")//(((doc_value == "SENDPART2") && (button_press == 8)) || (button_press == 17))
       {
         offset = 1;
         for (let i = 0; i < 60; i++) {
@@ -917,7 +918,7 @@ function sleep(ms) {
         param_set3_start();
         param_set3_tid = setInterval(param_set3_start, 5000);
       }
-      else if (((doc_value == "SENDPART3") && (button_press == 8)) || (button_press == 18))
+      else if (doc_value == "SENDPART3")//(((doc_value == "SENDPART3") && (button_press == 8)) || (button_press == 18))
       {
         offset = 2;
         for (let i = 0; i < (param_info.length - offset*60); i++) {
@@ -1149,7 +1150,7 @@ async function incomingData(event){
       let readInValue = await outboundChar.readValue();
       let decoder = new TextDecoder('utf-8');
       // var checkBox = document.getElementById("myCheck");
-      const doc_value = document.getElementById('cmd').value;
+      const doc_value = CommandSent;//document.getElementById('cmd').value;
       const string_check =  decoder.decode(readInValue).replace('\r','\r ← ').replace('\n','').replace('\0','');
       //alert("button_press="+button_press+" readInValue="+readInValue+"login_stage="+login_stage+" string_check="+string_check);
       //alert(login_stage + " " +isIgnore);
@@ -1177,7 +1178,7 @@ async function incomingData(event){
      
 
       //alert(string_check + "2");
-      if ((button_press == 10) || (button_press == 11) || (button_press == 16) || (button_press == 17) || (button_press == 18) || ((button_press == 8) && ((doc_value == "GET ECHO") || (doc_value == "GET DATEM") || (doc_value == "SENDPART1") || (doc_value == "SENDPART2") || (doc_value == "SENDPART3"))))
+      if (/*(button_press == 10) || (button_press == 11) || (button_press == 16) || (button_press == 17) || (button_press == 18) ||*/ (/*(button_press == 8) &&*/ ((doc_value == "GET ECHO") || (doc_value == "GET DATEM") || (doc_value == "SENDPART1") || (doc_value == "SENDPART2") || (doc_value == "SENDPART3"))))
       {
         var hex = Uint8tohex(readInValue);
         // if((button_press == 10) || ((button_press == 8) && (doc_value == "GET ECHO")))
@@ -1401,7 +1402,7 @@ async function incomingData(event){
       if(isIgnore_2 == 1 || isDisconnecting == 2){
         return;
       }
-
+      CommandSent = cmd;
       if(cmd === 'AT+PT=1'){
           log(lang_map[75]);//log(' → Logging ...'   );
           await sleep(2 * 1000); // needed 
@@ -1470,6 +1471,7 @@ async function incomingData(event){
 
 // Send an AT command to the CodeLess BLE peer
 async function sendAT(cmd) {
+      CommandSent = cmd;
       if (cmd === 'AT+PWRLVL')
         cmd_sent = "AT+PWRLVL";
       else if (cmd.includes("AT+PWRLVL="))
@@ -3370,7 +3372,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2024<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.2.0<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.3.0<br></p>
           </td>
         </tr>
       </table>
