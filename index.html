@@ -2973,7 +2973,7 @@ function myLoadFunction() {
                             },
                             drag: {
                               enabled: true,
-                              mode: 'y'
+                              mode: 'xy'
                             },
                             // mode: "x",
                             speed: 0.10,
@@ -3054,6 +3054,16 @@ function myLoadFunction() {
                     document.getElementById('myChart'),
                     config
                 );
+                $(document).ready(function () {
+                    $('#myChart').dblclick( function (e) {
+                          //left mouse button double click restores zoom and pan - resetZoom
+                          if (e.button === 0) {
+                              if (myChart && myChart.resetZoom) {
+                                    myChart.resetZoom();
+                              }
+                          }
+                    });
+                });
                 </script>
             </tr>
             
@@ -3372,7 +3382,7 @@ function myLoadFunction() {
             <p style="font-family:'Segoe UI Normal';  width: 115%; text-align:center; color:#ffffff; font-size:20pt;line-height:40px;">&copy; Pulsar Measurement 2024<br></p>
           </td>
           <td style=" text-align:center;font-size:24px;  background-color:rgb(51, 179, 74);;color:#2e2323;">
-            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.3.0<br></p>
+            <p style="font-family:'Segoe UI Normal';  width: 0%; text-align:right; color:#ffffff; font-size:12pt;line-height:40px; font-style: italic;">v2.4.0<br></p>
           </td>
         </tr>
       </table>
