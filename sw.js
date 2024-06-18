@@ -38,6 +38,7 @@ self.addEventListener('install', e => {
             '/aruntest.github.io/js/jquery-2.1.1.min.js',
 			      '/aruntest.github.io/js/jquery-impromptu.js',
             '/aruntest.github.io/js/lang.js',
+            '/aruntest.github.io/js/param.js',
             '/aruntest.github.io/js/script-lr2.js',
             '/aruntest.github.io/js/slider.js',
             '/aruntest.github.io/img/pulsaricon-rgb64_2.png',
